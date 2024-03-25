@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Categoriecodepromo
  *
  * @ORM\Table(name="categoriecodepromo")
  * @ORM\Entity(repositoryClass=App\Repository\CategoriecodepromoRepository::class)
+ * @UniqueEntity(fields={"code"}, message="This code is already in use.")
  */
 class Categoriecodepromo
 {
@@ -24,6 +26,7 @@ class Categoriecodepromo
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=200, nullable=false)
+     * @Assert\NotBlank(message="Code should not be blank")
      */
     private $code;
 
@@ -31,6 +34,14 @@ class Categoriecodepromo
      * @var float
      *
      * @ORM\Column(name="value", type="float", precision=10, scale=0, nullable=false)
+     * @Assert\NotBlank(message="Value should not be blank")
+     * @Assert\Type(type="float", message="Value should be a float")
+     * @Assert\Range(
+     *      min = 0.1,
+     *      max = 0.9,
+     *      minMessage = "Value must be at least 0.1",
+     *      maxMessage = "Value cannot be greater than 0.9"
+     * )
      */
     private $value;
 
@@ -38,6 +49,8 @@ class Categoriecodepromo
      * @var int
      *
      * @ORM\Column(name="nb_users", type="integer", nullable=false)
+     * @Assert\NotBlank(message="Number of users should not be blank")
+     * @Assert\Type(type="integer", message="Number of users should be an integer")
      */
     private $nbUsers;
 

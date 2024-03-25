@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}code promo{% endblock %}
+
+{% block body %}
+ <main id="main" class="main">
+        
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="card">
+
+                        {% for message in app.flashes('notice') %}
+                            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+
+                        {% for message in app.flashes('noticedelete') %}
+                            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">codepromo {{ categoriecodepromo.code }}</h5>
+                            <a href="{{ path('app_categoriecodepromo_new') }}">
+                                <button type="button" style="float: right;padding: 10px;" class="btn btn-outline-primary btn-icon-text"><i class="mdi mdi-pencil btn-icon-prepend"></i>create new code promo</button>
+                            </a>
+ <a href="{{ path('app_categoriecodepromo_index') }}"><button type="button" class="btn btn-outline-info">back to list</button></a>
+
+    <table class="table table-hover table-bordered">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ categoriecodepromo.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ categoriecodepromo.code }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ categoriecodepromo.value }}</td>
+            </tr>
+            <tr>
+                <th>NbUsers</th>
+                <td>{{ categoriecodepromo.nbUsers }}</td>
+            </tr>
+  
+            <tr>
+            </tr> 
+            <tr>
+            </tr> 
+ 
+        </tbody>
+
+    </table>
+
+<div class="btn-group" style="margin-top: 10px;">
+    <a href="{{ path('app_categoriecodepromo_edit', {'id': categoriecodepromo.id}) }}" class="btn btn-outline-info" style="width: 140px;">Edit</a>
+    <span style="margin: 0 5px;"></span> 
+    {{ include('categoriecodepromo/_delete_form.html.twig') }}
+</div>
+
+    
+      </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+        </section>
+
+    </main>
+{% endblock %}
