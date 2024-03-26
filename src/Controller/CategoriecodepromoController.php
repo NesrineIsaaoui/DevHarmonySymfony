@@ -32,7 +32,9 @@ class CategoriecodepromoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($categoriecodepromo);
             $entityManager->flush();
-
+            $this->addFlash(
+                'notice', 'Your discount code has been added!'
+            );
             return $this->redirectToRoute('app_categoriecodepromo_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -58,7 +60,9 @@ class CategoriecodepromoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash(
+                'noticeupdate', 'Your discount code has been edited!'
+            );
             return $this->redirectToRoute('app_categoriecodepromo_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -74,6 +78,9 @@ class CategoriecodepromoController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$categoriecodepromo->getId(), $request->request->get('_token'))) {
             $entityManager->remove($categoriecodepromo);
             $entityManager->flush();
+            $this->addFlash(
+                'noticedelete', 'Your discount code has been deleted!'
+            );
         }
 
         return $this->redirectToRoute('app_categoriecodepromo_index', [], Response::HTTP_SEE_OTHER);

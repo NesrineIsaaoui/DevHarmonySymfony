@@ -25,7 +25,12 @@
                             </div>
 
                         {% endfor %}
+  {% for message in app.flashes('noticeupdate') %}
+                            <div class="alert alert-primary bg-primary text-light border-0 alert-dismissible fade show" role="alert">
+                                {{ message }}
+                            </div>
 
+                        {% endfor %}
                         <div class="card-body">
 
                             <h5 class="card-title">List codepromos</h5>
