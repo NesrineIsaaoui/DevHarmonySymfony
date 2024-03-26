@@ -3,51 +3,40 @@
 {% block body %}
 
     <main id="main" class="main">
-
-
-
         <div class="pagetitle">
             <h1>Les Cours</h1>
-
-
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                     <li class="breadcrumb-item">Tables</li>
                     <li class="breadcrumb-item active">General</li>
                 </ol>
-
             </nav>
         </div><!-- End Page Title -->
 
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-
                     <div class="card">
-
                         {% for message in app.flashes('notice') %}
-                            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show"
+                                 role="alert">
                                 {{ message }}
                             </div>
-
                         {% endfor %}
-
-
                         {% for message in app.flashes('noticedelete') %}
-                            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show"
+                                 role="alert">
                                 {{ message }}
                             </div>
-
                         {% endfor %}
-
                         <div class="card-body">
-
                             <h5 class="card-title">List Cours</h5>
                             <a href="{{ path('ajouterCours') }}">
-                                <button type="button" style="float: right;padding: 10px;" class="btn btn-outline-info">Ajouter</button>
+                                <button type="button" style="float: right;padding: 10px;"
+                                        class="btn btn-outline-info">Ajouter
+                                </button>
                             </a>
-
                             <!-- Default Table -->
                             <table class="table">
                                 <thead>
@@ -63,71 +52,44 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        {% if listS | length == 0 %}
-
-                                            <p style="text-align: center">Cours vides</p>
-
-                                        {% endif %}
-
-                                    </td>
-                                </tr>
-
-
-
                                 {% for p in listS  %}
-
-
-
                                     <tr>
-
-                                        <td>{{p.coursname}}</td>
+                                        <td>{{ p.coursname }}</td>
                                         <td>{{ p.coursdescription }}</td>
-
-
-                                        <!--<td><img  style="width: 75px; height: 55px; padding: 5px;" src="{{ asset('uploads/'~p.coursimage) }}"/></td>  -->
-                                        <td><img style="width: 75px; height: 55px; padding: 5px;" src="{{ asset(p.coursimage) }}"/></td>
-
-
-                                        <td>{{p.coursprix}} TND</td>
+                                        <td>
+                                            {% set absoluteImagePath = p.coursimage %}
+                                            {% set relativeImagePath = absoluteImagePath|replace({'C:\\Users\\LENOVO\\Desktop\\GestionCours\\GestionCours/public': ''}) %}
+                                            <img style="width: 75px; height: 55px; padding: 5px;"
+                                                 src="{{ asset(relativeImagePath) }}"/>
+                                        </td>
+                                        <td>{{ p.coursprix }} TND</td>
                                         <td>{{ p.idcategory.getCategoryname() }}</td>
-
                                         <td>
                                             <a href="{{ path('modifierCours',{id:p.id}) }}">
-                                                <button type="button" class="btn btn-outline-success">Modifier</button></a></td>
-
+                                                <button type="button" class="btn btn-outline-success">Modifier</button>
+                                            </a>
+                                        </td>
                                         <td>
-                                            <a href="javascript:void(0)" onclick="if(confirm('Voulez vraiement supprimer ?')){window.location='{{ path('suppressionCours', {'id': p.id }) }}';}">
-
+                                            <a href="javascript:void(0)"
+                                               onclick="if(confirm('Voulez vraiement supprimer ?')){window.location='{{ path('suppressionCours', {'id': p.id }) }}';}">
                                                 <button type="button" class="btn btn-outline-danger">Supprimer</button>
-                                            </a></td>
-                                        <td><a href="{{ path('detailCours',{id:p.id}) }}">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('detailCours',{id:p.id}) }}">
                                                 <button type="button" class="btn btn-outline-dark">Detail</button>
-                                            </a></td>
+                                            </a>
+                                        </td>
                                     </tr>
-
-
                                 {% endfor %}
-
-
                                 </tbody>
                             </table>
-
                             <!-- End Default Table Example -->
-
                         </div>
-
                     </div>
-
-
-
                 </div>
-
-
             </div>
         </section>
-
     </main>
 
 {% endblock %}
