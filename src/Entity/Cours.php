@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Cours
@@ -24,13 +25,15 @@ class Cours
      * @var string
      *
      * @ORM\Column(name="coursName", type="string", length=50, nullable=false)
-     */
+     * @Assert\NotBlank(message="cours name ne doit pas être vide.")
+ */
     private $coursname;
 
     /**
      * @var string
      *
      * @ORM\Column(name="coursDescription", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="cours description  ne doit pas être vide.")
      */
     private $coursdescription;
 
@@ -38,6 +41,7 @@ class Cours
      * @var string
      *
      * @ORM\Column(name="coursImage", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="selectionner une image.")
      */
     private $coursimage;
 
@@ -45,6 +49,8 @@ class Cours
      * @var int
      *
      * @ORM\Column(name="coursPrix", type="integer", nullable=false)
+     * @Assert\NotBlank(message="cours prix ne doit pas être vide.")
+     * @Assert\Positive(message="prix doit être positive.")
      */
     private $coursprix;
 

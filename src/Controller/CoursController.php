@@ -17,33 +17,35 @@ class CoursController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager()->getRepository(Cours::class);
         $prods = $em->findAll(); // Select * from produits;
-        return $this->render('cours/index.html.twig', ['listS'=>$prods]);
+        return $this->render('cours/index.html.twig', ['listS' => $prods]);
     }
 
     #[Route('/ajouterCours', name: 'ajouterCours')]
     public function ajouterCours(Request $request): Response
     {
-        $prod = new Cours(); // init objet
-        $form = $this->createForm(CoursType::class, $prod);
-        $form->handleRequest($request); //
+        $prod = new Cours(); // Initialisation de l'objet Cours
+        $form = $this->createForm(CoursType::class, $prod); // Création du formulaire
+        $form->handleRequest($request); // Gestion de la requête
+
         if ($form->isSubmitted() && $form->isValid()) {
             $fileUpload = $form->get('coursimage')->getData();
             $fileName = md5(uniqid()) . '.' . $fileUpload->guessExtension();
             $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads'; // Chemin absolu du dossier d'upload
             $fileUpload->move($uploadDir, $fileName); // Déplacer le fichier vers le dossier d'upload
-            $filePath = realpath($uploadDir . '/' . $fileName); // Chemin absolu du fichier
-            $prod->setCoursimage($filePath); // Stocker le chemin absolu dans l'entité
+            $filePath = 'uploads/' . $fileName; // Chemin relatif du fichier
+            $prod->setCoursimage($filePath); // Stocker le chemin relatif dans l'entité
             $em = $this->getDoctrine()->getManager();
-            $em->persist($prod);//ajout
-            $em->flush();
-            $this->addFlash(
-                'notice', 'Cours a été bien ajoutée '
-            );
+            $em->persist($prod); // Ajout de l'objet à l'EntityManager
+            $em->flush(); // Enregistrement des changements en base de données
+
+            $this->addFlash('notice', 'Le cours a été ajouté avec succès.');
+
             return $this->redirectToRoute('app_cours');
         }
-        return $this->render('cours/createCours.html.twig',
-            ['f' => $form->createView()]
-        );
+
+        return $this->render('cours/createCours.html.twig', [
+            'f' => $form->createView()
+        ]);
     }
 
 
@@ -57,16 +59,14 @@ class CoursController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $fileUpload = $form->get('coursimage')->getData();
-            if ($fileUpload) {
-                $fileName = md5(uniqid()) . '.' . $fileUpload->guessExtension(); //Cryptage image
-                $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads'; // Chemin absolu du dossier d'upload
-                $fileUpload->move($uploadDir, $fileName); // Déplacer le fichier vers le dossier d'upload
-                $filePath = realpath($uploadDir . '/' . $fileName); // Chemin absolu du fichier
-                $prod->setCoursimage($filePath);
-            }
-
-            $em->persist($prod);
-            $em->flush();
+            $fileName = md5(uniqid()) . '.' . $fileUpload->guessExtension();
+            $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads'; // Chemin absolu du dossier d'upload
+            $fileUpload->move($uploadDir, $fileName); // Déplacer le fichier vers le dossier d'upload
+            $filePath = 'uploads/' . $fileName; // Chemin relatif du fichier
+            $prod->setCoursimage($filePath); // Stocker le chemin relatif dans l'entité
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($prod); // Ajout de l'objet à l'EntityManager
+            $em->flush(); // Enregistrement des changements en base de données
 
             $this->addFlash(
                 'notice', 'Cours a été bien modifié '
@@ -94,5 +94,21 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute('app_cours');
     }
+    #[Route('/detailCours/{id}', name: 'detailCours')]
+    public function detailCours(\Symfony\Component\HttpFoundation\Request $req, $id)
+    {
 
+        $em = $this->getDoctrine()->getManager();
+        $prod = $em->getRepository(Cours::class)->find($id);
+        return $this->render('cours/detailCours.html.twig', array(
+            'id' => $prod->getId(),
+            'coursname' => $prod->getCoursname(),
+            'coursdescription' => $prod->getCoursdescription(),
+            'coursimage' => $prod->getCoursimage(),
+            'coursprix' => $prod->getCoursprix(),
+            'categoryName' => $prod->getIdcategory()->getCategoryname()
+
+        ));
+
+    }
 }

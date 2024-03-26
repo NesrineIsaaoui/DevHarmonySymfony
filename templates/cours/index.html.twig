@@ -86,9 +86,12 @@
                                         <td>{{ p.coursdescription }}</td>
 
 
-                                        <td><img style="width: 75px; height: 55px; padding: 5px;" src="{{ p.coursimage }}" /></td>
-                                        <td>{{p.coursprix}}</td>
-                                        <td>{{ p.idcategory.getId() }}</td>
+                                        <!--<td><img  style="width: 75px; height: 55px; padding: 5px;" src="{{ asset('uploads/'~p.coursimage) }}"/></td>  -->
+                                        <td><img style="width: 75px; height: 55px; padding: 5px;" src="{{ asset(p.coursimage) }}"/></td>
+
+
+                                        <td>{{p.coursprix}} TND</td>
+                                        <td>{{ p.idcategory.getCategoryname() }}</td>
 
                                         <td>
                                             <a href="{{ path('modifierCours',{id:p.id}) }}">
@@ -99,7 +102,10 @@
 
                                                 <button type="button" class="btn btn-outline-danger">Supprimer</button>
                                             </a></td>
-                                                                    </tr>
+                                        <td><a href="{{ path('detailCours',{id:p.id}) }}">
+                                                <button type="button" class="btn btn-outline-dark">Detail</button>
+                                            </a></td>
+                                    </tr>
 
 
                                 {% endfor %}
