@@ -1,0 +1,12 @@
+{% if cartData.reservations is not empty %}
+    <ul>
+        {% for item in cartData.reservations %}
+            <li>
+                <strong>{{ item.reservation.id }}</strong> - {{ item.reservation.idCours.getCoursname() }} - {{ item.reservation.dateReservation|date('Y-m-d') }} - {{ item.reservation.prixd }}
+                <a href="{{ path('cart_remove', {'id': item.reservation.id}) }}">Remove</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    No reservations found
+{% endif %}

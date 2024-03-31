@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Apply Promo Code</h1>
+     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    {% if success %}
+        <div class="alert alert-success">{{ success }}</div>
+    {% endif %}
+    <form method="post" action="{{ path('apply_promo') }}">
+      
+        {{ form_row(form.promo_code) }}
+        <button type="submit" class="btn btn-primary">Apply</button>
+        {{ form_end(form) }}
+    </form>
+{% endblock %}

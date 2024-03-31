@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Reservation
  *
@@ -72,10 +72,10 @@ class Reservation
 
     /**
      * @var Categoriecodepromo
-     *
+     *@Assert\Valid
      * @ORM\ManyToOne(targetEntity="Categoriecodepromo")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_codepromo", referencedColumnName="id")
+     *  @ORM\JoinColumn(name="id_codepromo", referencedColumnName="id")
      * })
      */
     private $idCodepromo;

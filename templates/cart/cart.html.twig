@@ -1,0 +1,27 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block body %}
+    <h1>Your Cart</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Price</th>
+                <!-- Add more columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cartData.reservations %}
+                <tr>
+                    <td>{{ item.reservation.course.name }}</td>
+                    <td>{{ item.reservation.course.price }}</td>
+                    <!-- Add more cells for other reservation properties -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

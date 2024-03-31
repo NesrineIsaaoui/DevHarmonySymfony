@@ -1,0 +1,11 @@
+{% if cartData is not empty and cartData|length > 0 %}
+    <ul>
+        {% for reservation in cartData %}
+            <li>
+                {% include 'cart/item.html.twig' with {'reservation': reservation} %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    {# Handle case when cartData is empty #}
+{% endif %}
