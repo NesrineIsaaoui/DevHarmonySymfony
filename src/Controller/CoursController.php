@@ -19,6 +19,13 @@ class CoursController extends AbstractController
         $prods = $em->findAll(); // Select * from produits;
         return $this->render('cours/index.html.twig', ['listS' => $prods]);
     }
+    #[Route('/coursFront', name: 'coursFront')]
+    public function coursFront(): Response
+    {
+        $em = $this->getDoctrine()->getManager()->getRepository(Cours::class);
+        $prods = $em->findAll(); // Select * from produits;
+        return $this->render('cours/coursFront.html.twig', ['listS' => $prods]);
+    }
     #[Route('/ajouterCours', name: 'ajouterCours')]
     public function ajouterCours(Request $request): Response
     {
