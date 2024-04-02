@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Avis
@@ -25,7 +26,8 @@ class Avis
      * @var int
      *
      * @ORM\Column(name="etoiles", type="integer", nullable=false)
-     */
+     * @Assert\NotBlank(message="etoiles name ne doit pas être vide.")
+ */
     private $etoiles;
 
     /**
@@ -37,6 +39,8 @@ class Avis
      * })
      */
     private $cours;
+
+
 
     public function getId(): ?int
     {

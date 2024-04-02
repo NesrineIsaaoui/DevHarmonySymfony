@@ -1,30 +1,31 @@
 {% extends 'baseFront.html.twig' %}
+
 {% block body %}
     <div class="properties__card">
-        <div class="properties__img overlay1">
-            <a href="#"><img src="assets/img/gallery/featured1.png" alt=""></a>
-        </div>
-        <div class="properties__caption">
-            <p>User Experience</p>
-            <h3><a href="#">Fundamental of UX for Application design</a></h3>
-            <p>The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.
-            </p>
-            <div class="properties__footer d-flex justify-content-between align-items-center">
-                <div class="restaurant-name">
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half"></i>
+        <div class="row">
+            {% for p in listS %}
+                <div class="col-md-4">
+                    <div class="properties__caption text-center"> <!-- Added text-center class -->
+                        <img src="{{ p.coursimage }}" class="img-fluid mx-auto d-block" alt="" style="max-width: 100px; max-height: 100px;"> <!-- Added mx-auto d-block classes -->
+                        <h3><a href="#">Cours Name: {{ p.coursname }}</a></h3>
+                        <p>Description: {{ p.coursdescription }}</p>
+                        <div class="rating">
+                            {% for i in range(1, 5) %}
+                                {% if i <= averageRatings[p.id] %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                            <span>({{ averageRatings[p.id] }})</span> based on {{ p.avis|length }} reviews
+                        </div>
+                        <div class="price">
+                            <span>Prix: {{ p.coursprix }}TND</span>
+                        </div>
+                        <a href="#" class="border-btn border-btn2">Reserver</a>
                     </div>
-                    <p><span>(4.5)</span> based on 120</p>
                 </div>
-                <div class="price">
-                    <span>$135</span>
-                </div>
-            </div>
-            <a href="#" class="border-btn border-btn2">Find out more</a>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

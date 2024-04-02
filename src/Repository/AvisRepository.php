@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Repository;
-
 use App\Entity\Avis;
+use App\Entity\Cours;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +19,15 @@ class AvisRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Avis::class);
+    }
+    public function getAverageRatingForCours(Cours $cours): ?float
+    {
+        return $this->createQueryBuilder('a')
+            ->select('AVG(a.etoiles) as average_rating')
+            ->andWhere('a.cours = :cours')
+            ->setParameter('cours', $cours)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
 //    /**
@@ -45,4 +54,6 @@ class AvisRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
 }

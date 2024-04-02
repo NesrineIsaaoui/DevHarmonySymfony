@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Avis;
 use App\Entity\Cours;
 use App\Form\CoursType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,8 +25,21 @@ class CoursController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager()->getRepository(Cours::class);
         $prods = $em->findAll(); // Select * from produits;
-        return $this->render('cours/coursFront.html.twig', ['listS' => $prods]);
+
+        // Calculate average ratings for each course
+        $averageRatings = [];
+        foreach ($prods as $cours) {
+            $averageRating = $this->getDoctrine()->getRepository(Avis::class)->getAverageRatingForCours($cours);
+            $averageRatings[$cours->getId()] = $averageRating;
+        }
+
+        return $this->render('cours/coursFront.html.twig', [
+            'listS' => $prods,
+            'averageRatings' => $averageRatings,
+        ]);
     }
+
+
     #[Route('/ajouterCours', name: 'ajouterCours')]
     public function ajouterCours(Request $request): Response
     {
@@ -74,9 +88,26 @@ class CoursController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer le fichier téléchargé
+            $fileUpload = $form->get('coursimage')->getData();
 
-            $em->persist($prod); // Ajout de l'objet à l'EntityManager
-            $em->flush(); // Enregistrement des changements en base de données
+            // Générer un nom de fichier unique
+            $fileName = md5(uniqid()) . '.' . $fileUpload->guessExtension();
+
+            // Définir le chemin absolu complet pour sauvegarder le fichier
+            $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads';
+
+            // Déplacer le fichier téléchargé vers le dossier uploads
+            $fileUpload->move($uploadDir, $fileName);
+
+            // Enregistrer le chemin relatif du fichier dans la base de données
+            $filePath = '/uploads/' . $fileName;
+            $prod->setCoursimage($filePath);
+
+            // Enregistrer l'objet dans la base de données
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($prod);
+            $em->flush();
 
             $this->addFlash(
                 'notice', 'Cours a été bien modifié '

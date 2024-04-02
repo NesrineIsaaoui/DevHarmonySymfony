@@ -4,6 +4,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 /**
  * Cours
  *
@@ -64,6 +66,23 @@ class Cours
      */
     private $idcategory;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Avis", mappedBy="cours")
+     */
+    private $avis;
+
+    public function __construct()
+    {
+        $this->avis = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
     public function getId(): ?int
     {
         return $this->id;
