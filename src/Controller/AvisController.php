@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Cours;
 
 class AvisController extends AbstractController
 {
@@ -71,5 +72,37 @@ class AvisController extends AbstractController
         return $this->redirectToRoute('app_avis');
     }
 
+    #[Route('/cours/statistiques/{id}', name: 'cours_statistics')]
+    public function showStatistics(Cours $cours): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Avis::class);
+        $ratings = $repository->getRatingsForCours($cours);
+
+        // Filtrer les éléments non valides (ni integer ni string)
+        $filteredRatings = array_filter($ratings, function($rating) {
+            return is_int($rating) || is_string($rating);
+        });
+
+        // Calculer le pourcentage de chaque note
+        $totalRatings = count($filteredRatings);
+        $ratingCounts = array_count_values($filteredRatings);
+        $ratingPercentages = [];
+
+        for ($i = 1; $i <= 5; $i++) {
+            // Vérifier si la note existe dans le tableau de comptage
+            if (isset($ratingCounts[$i])) {
+                // Calculer le pourcentage si la note existe
+                $ratingPercentages[$i] = ($ratingCounts[$i] / $totalRatings) * 100;
+            } else {
+                // Si la note n'existe pas, le pourcentage est de 0%
+                $ratingPercentages[$i] = 0;
+            }
+        }
+
+        return $this->render('cours/statistics.html.twig', [
+            'cours' => $cours,
+            'ratingPercentages' => $ratingPercentages,
+        ]);
+    }
 
 }

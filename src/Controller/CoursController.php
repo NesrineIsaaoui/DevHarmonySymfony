@@ -9,7 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 class CoursController extends AbstractController
 {
 
@@ -21,24 +23,37 @@ class CoursController extends AbstractController
         return $this->render('cours/index.html.twig', ['listS' => $prods]);
     }
     #[Route('/coursFront', name: 'coursFront')]
-    public function coursFront(): Response
+    public function coursFront(Request $request, PaginatorInterface $paginator): Response
     {
-        $em = $this->getDoctrine()->getManager()->getRepository(Cours::class);
-        $prods = $em->findAll(); // Select * from produits;
-
+        $repository = $this->getDoctrine()->getRepository(Cours::class);
+        $prods = $repository->findAll(); // Select * from cours;
+        $searchedCours = $request->query->get('searchedCours');
+        $queryBuilder = $repository->createQueryBuilder('t');
         // Calculate average ratings for each course
         $averageRatings = [];
         foreach ($prods as $cours) {
             $averageRating = $this->getDoctrine()->getRepository(Avis::class)->getAverageRatingForCours($cours);
             $averageRatings[$cours->getId()] = $averageRating;
         }
+        if (!empty($searchedCours)) {
+            $queryBuilder->andWhere('t.coursname LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchedCours . '%');
+        }
+
+        $query = $queryBuilder->getQuery();
+        $pagination = $paginator->paginate(
+            $prods,
+            $request->query->getInt('page', 1), // Current page number
+            3 // Number of items per page
+        );
 
         return $this->render('cours/coursFront.html.twig', [
-            'listS' => $prods,
+            'listS' => $pagination,
             'averageRatings' => $averageRatings,
+            'searchedCours' => $searchedCours,
+
         ]);
     }
-
 
     #[Route('/ajouterCours', name: 'ajouterCours')]
     public function ajouterCours(Request $request): Response

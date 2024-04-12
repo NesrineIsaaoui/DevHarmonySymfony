@@ -29,6 +29,23 @@ class AvisRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+    public function getRatingsForCours(Cours $cours): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.etoiles')
+            ->andWhere('a.cours = :cours')
+            ->setParameter('cours', $cours)
+            ->getQuery();
+
+        $ratings = $qb->getResult();
+
+        // Extract etoiles values from Avis objects
+        $etoilesArray = array_map(function($avis) {
+            return $avis['etoiles'];
+        }, $ratings);
+
+        return $etoilesArray;
+    }
 
 //    /**
 //     * @return Avis[] Returns an array of Avis objects

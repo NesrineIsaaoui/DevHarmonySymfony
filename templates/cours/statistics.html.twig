@@ -1,0 +1,26 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Statistiques du Cours "{{ cours.coursname }}"</h1>
+        </div>
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Statistiques des Avis</h5>
+                            <ul>
+                                {% for rating, percentage in ratingPercentages %}
+                                    <li>Note {{ rating }} : {{ percentage }}%</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

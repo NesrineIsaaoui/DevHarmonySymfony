@@ -1,12 +1,41 @@
 {% extends 'baseFront.html.twig' %}
 
 {% block body %}
-    <div class="properties__card">
+    <style>
+        /* CSS personnalisé pour agrandir la case de recherche et mettre en gras la phrase */
+        .custom-search-input {
+            width: 100%; /* Définir une largeur personnalisée */
+            max-width: 600px; /* Définir une largeur maximale si nécessaire */
+            margin: 0 auto; /* Centrer horizontalement */
+        }
+
+        .custom-search-input input[type="text"] {
+            height: 50px; /* Définir une hauteur personnalisée */
+            font-weight: bold; /* Mettre en gras le texte */
+        }
+    </style>
+
+    <div class="container">
         <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="album py-5 bg-light">
+                    <div class="sidebar-search">
+                        <div class="input-group input-group-lg custom-search-input"> <!-- Ajouter la classe custom-search-input pour appliquer les styles CSS personnalisés -->
+                            <input type="text" id="search" class="form-control widget_input" placeholder="Chercher un cours">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="properties__card">
+        <div class="row" id="searchResults">
             {% for p in listS %}
                 <div class="col-md-4">
-                    <div class="properties__caption text-center"> <!-- Added text-center class -->
-                        <img src="{{ p.coursimage }}" class="img-fluid mx-auto d-block" alt="" style="max-width: 100px; max-height: 100px;"> <!-- Added mx-auto d-block classes -->
+                    <div class="properties__caption text-center">
+                        <img src="{{ p.coursimage }}" class="img-fluid mx-auto d-block" alt="" style="max-width: 100px; max-height: 100px;">
                         <h3><a href="#">Cours Name: {{ p.coursname }}</a></h3>
                         <p>Description: {{ p.coursdescription }}</p>
                         <div class="rating">
@@ -28,4 +57,47 @@
             {% endfor %}
         </div>
     </div>
+
+    <!-- Pagination -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 d-flex justify-content-center">
+                {{ knp_pagination_render(listS, 'bootstrap_4_pagination.html.twig') }}
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Scripts JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            $("#search").keyup(function() {
+                var value = $(this).val().toLowerCase();
+                $("#searchResults .col-md-4").each(function() {
+                    var coursname = $(this).find("h3 a").text().toLowerCase();
+                    if (coursname.includes(value)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $(".btn1").click(function(){
+                $("h1").slideUp();
+            });
+            $(".btn2").click(function(){
+                $("h1").slideDown();
+            });
+            $(".btn3").click(function(){
+                $("h1").slideToggle();
+            });
+        });
+    </script>
 {% endblock %}
