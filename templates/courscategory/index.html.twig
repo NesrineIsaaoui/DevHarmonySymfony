@@ -24,7 +24,8 @@
                             {% endfor %}
                             <h5 class="card-title"></h5>
                             <a href="{{ path('ajout_category') }}">
-                                <button type="button" style="float: right;padding: 10px;" class="btn btn-outline-info">Ajouter</button>
+                                <button type="button" style="display: none;"></button> <!-- Bouton caché -->
+                                <i class="fas fa-plus-circle" style="float: right; font-size: 24px; color: #007bff; cursor: pointer;" onclick="window.location='{{ path('ajout_category') }}';"></i>
                             </a>
                             <!-- Default Table -->
                             <table class="table">
@@ -43,22 +44,17 @@
                                         {% endif %}
                                     </td>
                                 </tr>
-
                                 {% for p in cat  %}
                                     <tr>
                                         <td>{{ p.categoryname }}</td>
                                         <td>
                                             <a href="{{ path('modifier_category',{id:p.id}) }}">
-                                                <button type="button" class="btn btn-outline-info">
-                                                    <i class="fas fa-pencil-alt"></i> Modifier
-                                                </button>
+                                                <i class="fas fa-pencil-alt" style="font-size: 18px; color: #17a2b8; cursor: pointer;"></i> <!-- Icone Modifier -->
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="javascript:void(0)" onclick="if(confirm('Voulez vraiement supprimer ?')){window.location='{{ path('supprimerCategory', {'id': p.id }) }}';}">
-                                                <button type="button" class="btn btn-outline-danger">
-                                                    <i class="fas fa-trash-alt"></i> Supprimer
-                                                </button>
+                                            <a href="javascript:void(0)" onclick="if(confirm('Voulez vraiment supprimer ?')){window.location='{{ path('supprimerCategory', {'id': p.id }) }}';}">
+                                                <i class="fas fa-trash-alt" style="font-size: 18px; color: #dc3545; cursor: pointer;"></i> <!-- Icone Supprimer -->
                                             </a>
                                         </td>
                                     </tr>

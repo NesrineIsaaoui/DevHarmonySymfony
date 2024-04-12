@@ -1,7 +1,6 @@
 {% extends 'baseBack.html.twig' %}
 
 {% block body %}
-
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>Les Cours</h1>
@@ -33,9 +32,8 @@
                         <div class="card-body">
                             <h5 class="card-title">List Cours</h5>
                             <a href="{{ path('ajouterCours') }}">
-                                <button type="button" style="float: right;padding: 10px;"
-                                        class="btn btn-outline-info">Ajouter
-                                </button>
+                                <!-- Remplacer le bouton "Ajouter" par une icône -->
+                                <i class="fas fa-plus-circle" style="float: right; font-size: 24px; color: #007bff; cursor: pointer;" title="Ajouter" onclick="window.location='{{ path('ajouterCours') }}';"></i>
                             </a>
                             <!-- Default Table -->
                             <table class="table">
@@ -49,10 +47,11 @@
                                     <th scope="col">Modifier</th>
                                     <th scope="col">Supprimer</th>
                                     <th scope="col">Detail</th>
+                                    <th scope="col">Statistique</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for p in listS  %}
+                                {% for p in listS %}
                                     <tr>
                                         <td>{{ p.coursname }}</td>
                                         <td>{{ p.coursdescription }}</td>
@@ -60,30 +59,38 @@
                                             {% set absoluteImagePath = p.coursimage %}
                                             {% set relativeImagePath = absoluteImagePath|replace({'C:\\Users\\LENOVO\\Desktop\\GestionCours\\GestionCours/public': ''}) %}
                                             <img style="width: 75px; height: 55px; padding: 5px;"
-                                                 src="{{ asset(relativeImagePath) }}"/>
+                                                 src="{{ asset(relativeImagePath) }}" />
                                         </td>
                                         <td>{{ p.coursprix }} TND</td>
                                         <td>{{ p.idcategory.getCategoryname() }}</td>
                                         <td>
                                             <a href="{{ path('modifierCours',{id:p.id}) }}">
-                                                <button type="button" class="btn btn-outline-success">Modifier</button>
+                                                <button type="button" class="btn btn-outline-success btn-icon">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </button>
                                             </a>
                                         </td>
                                         <td>
                                             <a href="javascript:void(0)"
-                                               onclick="if(confirm('Voulez vraiement supprimer ?')){window.location='{{ path('suppressionCours', {'id': p.id }) }}';}">
-                                                <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                                               onclick="if(confirm('Voulez vraiment supprimer ?')){window.location='{{ path('suppressionCours', {'id': p.id }) }}';}">
+                                                <button type="button" class="btn btn-outline-danger btn-icon">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </a>
                                         </td>
                                         <td>
                                             <a href="{{ path('detailCours',{id:p.id}) }}">
-                                                <button type="button" class="btn btn-outline-dark">Detail</button>
+                                                <button type="button" class="btn btn-outline-dark btn-icon">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </button>
                                             </a>
                                         </td>
 
                                         <td>
                                             <a href="{{ path('cours_statistics',{id:p.id}) }}">
-                                                <button type="button" class="btn btn-outline-dark">Detail</button>
+                                                <button type="button" class="btn btn-outline-dark btn-icon">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </button>
                                             </a>
                                         </td>
 
@@ -98,5 +105,4 @@
             </div>
         </section>
     </main>
-
 {% endblock %}

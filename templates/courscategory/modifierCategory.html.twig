@@ -3,6 +3,11 @@
 
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
+            <div class="row">
+                <a href="{{ path('app_category') }}">
+                    <i class="fa fa-arrow-circle-left" style="font-size: 30px; color: black;"></i>
+                </a>
+            </div>
             <div class="card-body">
                 <h4 class="card-title">Modifier Catégory</h4>
                 {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}

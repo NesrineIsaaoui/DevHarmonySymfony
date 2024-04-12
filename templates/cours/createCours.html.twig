@@ -1,55 +1,62 @@
 {% extends 'baseBack.html.twig' %}
 {% block body %}
+    <div class="content-page">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <a href="{{ path('app_cours') }}">
+                        <i class="fa fa-arrow-circle-left" style="font-size: 30px; color: black;"></i>
+                    </a>
+                </div>
+                <div class="col-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Ajouter Cours</h4>
+                            {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-4 col-form-label">Cours Name</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.coursname,{'attr':{'class':'form-control'}}) }}
+                                    {{ form_errors(f.coursname,{'attr':{'class':'text-danger'}}) }}
+                                </div>
+                            </div>
 
-    <div class="col-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Ajouter Cours</h4>
-                {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-4 col-form-label">Cours Name</label>
-                    <div class="col-sm-10">
-                        {{ form_widget(f.coursname,{'attr':{'class':'form-control'}}) }}
-                        {{ form_errors(f.coursname,{'attr':{'class':'text-danger'}}) }}
-                    </div>
-                </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-4 col-form-label">Cours Description</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.coursdescription,{'attr':{'class':'form-control'}}) }}
+                                    {{ form_errors(f.coursdescription,{'attr':{'class':'text-danger'}}) }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-4 col-form-label">File Upload</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.coursimage,{'attr':{'class':'form-control'}}) }}
+                                    {{ form_errors(f.coursimage,{'attr':{'class':'text-danger'}}) }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-4 col-form-label">Cours Prix</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.coursprix,{'attr':{'class':'form-control'}}) }}
+                                    {{ form_errors(f.coursprix,{'attr':{'class':'text-danger'}}) }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-4 col-form-label">Nom Category</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.idcategory,{'attr':{'class':'form-control'}}) }}
+                                    {{ form_errors(f.idcategory,{'attr':{'class':'text-danger'}}) }}
+                                </div>
+                            </div>
 
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-4 col-form-label">Cours Description</label>
-                    <div class="col-sm-10">
-                        {{ form_widget(f.coursdescription,{'attr':{'class':'form-control'}}) }}
-                        {{ form_errors(f.coursdescription,{'attr':{'class':'text-danger'}}) }}
+                            <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                            <a href="{{ path('app_cours') }}" class="btn btn-light">Cancel</a>
+                            {{ form_end(f) }}
+                        </div>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-4 col-form-label">File Upload</label>
-                    <div class="col-sm-10">
-                        {{ form_widget(f.coursimage,{'attr':{'class':'form-control'}}) }}
-                        {{ form_errors(f.coursimage,{'attr':{'class':'text-danger'}}) }}
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-4 col-form-label">Cours Prix</label>
-                    <div class="col-sm-10">
-                        {{ form_widget(f.coursprix,{'attr':{'class':'form-control'}}) }}
-                        {{ form_errors(f.coursprix,{'attr':{'class':'text-danger'}}) }}
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-4 col-form-label">Nom Category</label>
-                    <div class="col-sm-10">
-                        {{ form_widget(f.idcategory,{'attr':{'class':'form-control'}}) }}
-                        {{ form_errors(f.idcategory,{'attr':{'class':'text-danger'}}) }}
-                    </div>
-                </div>
-
-                </div>
-
-                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-                <button class="btn btn-light">Cancel</button>
-                {{ form_end(f) }}
             </div>
         </div>
     </div>
-
 {% endblock %}
