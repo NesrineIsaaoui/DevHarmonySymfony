@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="SeconnecterPane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #033E6A;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="test.SeconnecterController">
+   <children>
+      <AnchorPane fx:id="imgpane" layoutX="512.0" layoutY="74.0">
+         <children>
+            <ImageView fx:id="imgviewid" fitHeight="568.0" fitWidth="668.0" preserveRatio="true">
+               <image>
+                  <Image url="@cup.jpg" />
+               </image>
+               <effect>
+                  <Lighting bumpInput="$null">
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="SeconnecterLeftPane" layoutX="950.0" layoutY="75.0" prefHeight="568.0" prefWidth="225.0" style="-fx-background-color: transparent;">
+         <children>
+            <Button fx:id="sinscrirebutton" layoutX="40.0" layoutY="374.0" mnemonicParsing="false" onAction="#sinscrire" prefHeight="52.0" prefWidth="135.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-radius: 50; -fx-border-color: white; -fx-cursor: pointer; -fx-border-width: 2;" text="S'inscrire" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
+            <Text fill="WHITE" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inscrivez-vous et dévouvrez des nouvelles opportunités!" textAlignment="CENTER" wrappingWidth="225.0">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="-5.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nouveau ici ?" textAlignment="CENTER" wrappingWidth="225.0">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="SeconnecterRightPane" layoutX="100.0" layoutY="75.0" prefHeight="568.0" prefWidth="847.0" style="-fx-background-color: white; -fx-background-radius: 20 0 0 20;">
+         <children>
+            <Text fill="#033e6a" layoutX="-1.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Se connecter" textAlignment="CENTER" wrappingWidth="847.0">
+               <font>
+                  <Font size="73.0" />
+               </font>
+            </Text>
+            <Text layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse électronique" textAlignment="CENTER" wrappingWidth="847.0">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="-1.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mot de passe" textAlignment="CENTER" wrappingWidth="847.0">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Text>
+            <TextField fx:id="tfaddress" layoutX="310.0" layoutY="182.0" prefHeight="46.0" prefWidth="225.0" style="-fx-cursor: text; -fx-background-color: transparent; -fx-border-color: grey; -fx-border-width: 0 0 2 0; -fx-border-radius: 5;">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </TextField>
+            <Button fx:id="submitbutton" alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="CENTER" focusTraversable="false" layoutX="259.0" layoutY="384.0" mnemonicParsing="false" onAction="#submit" prefHeight="29.0" prefWidth="327.0" scaleShape="false" style="-fx-background-color: green; -fx-background-radius: 15; -fx-cursor: pointer; -fx-font-weight: bold; -fx-font-size: 14px;" text="Se Connecter" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="forgetpasswordbutton" alignment="CENTER" cache="true" cacheShape="false" centerShape="false" contentDisplay="BOTTOM" depthTest="DISABLE" focusTraversable="false" graphicTextGap="0.0" layoutX="298.0" layoutY="434.0" mnemonicParsing="false" onAction="#forgetpassword" pickOnBounds="false" prefHeight="45.0" prefWidth="251.0" scaleShape="false" style="-fx-background-color: transparent; -fx-cursor: pointer; -fx-font-weight: bold;" text="Oublier le mot de passe ?" textAlignment="CENTER" textOverrun="CLIP">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <PasswordField fx:id="tfmotdepass" layoutX="310.0" layoutY="300.0" prefHeight="46.0" prefWidth="225.0" style="-fx-cursor: text; -fx-border-color: grey; -fx-border-width: 0 0 2 0; -fx-border-radius: 5; -fx-background-color: transparent;">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </PasswordField>
+
+               </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

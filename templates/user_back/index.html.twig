@@ -1,0 +1,63 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}User Index{% endblock %}
+
+{% block body %}
+    <h1>User Index</h1>
+
+    <p>Percentage of Students: {{ studentsPercentage }} %</p>
+    <p>Number of Students: {{ studentsCount }}</p>
+    <p>Number of Teachers: {{ teachersCount }}</p>
+    <p>Total Users: {{ totalUsers }}</p>
+
+    <a href="{{ path('app_user_back_new') }}" class="btn btn-success">Create New</a>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Age</th>
+                    <th>Image</th>
+                    <th>Numéro de téléphone</th>
+                    <th>Email</th>
+                    <th>Mot de passe</th>
+                    <th>Statut</th>
+                    <th>Reset Code</th>
+                    <th>Confirm Code</th>
+                    <th>Status Code</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.nom }}</td>
+                        <td>{{ user.prenom }}</td>
+                        <td>{{ user.age }}</td>
+                        <td>{{ user.image }}</td>
+                        <td>{{ user.numTel }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.mdp }}</td>
+                        <td>{{ user.status }}</td>
+                        <td>{{ user.resetcode }}</td>
+                        <td>{{ user.confirmcode }}</td>
+                        <td>{{ user.statuscode }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>
+                            <a href="{{ path('app_user_back_show', {'id': user.id}) }}" class="btn btn-info btn-sm">Show</a>
+                            <a href="{{ path('app_user_back_edit', {'id': user.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="14">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
