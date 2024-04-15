@@ -1,3 +1,8 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+save_rating:
+  path: /save-rating
+  controller: App\Controller\CoursController::saveRating
+  methods: ['POST']

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Avis;
 use App\Entity\Cours;
+use App\Form\AvisType;
 use App\Form\CoursType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 class CoursController extends AbstractController
 {
 
@@ -22,6 +24,7 @@ class CoursController extends AbstractController
         $prods = $em->findAll(); // Select * from produits;
         return $this->render('cours/index.html.twig', ['listS' => $prods]);
     }
+
     #[Route('/coursFront', name: 'coursFront')]
     public function coursFront(Request $request, PaginatorInterface $paginator): Response
     {
@@ -47,11 +50,18 @@ class CoursController extends AbstractController
             3 // Number of items per page
         );
 
+        // Check if a new rating has been submitted
+        $newRating = $request->request->get('newRating');
+        $courseId = $request->request->get('courseId');
+        if ($newRating !== null && $courseId !== null) {
+            // Update the average rating for the specific course
+            $averageRatings[$courseId] = $this->getDoctrine()->getRepository(Avis::class)->getAverageRatingForCours($repository->find($courseId));
+        }
+
         return $this->render('cours/coursFront.html.twig', [
             'listS' => $pagination,
             'averageRatings' => $averageRatings,
             'searchedCours' => $searchedCours,
-
         ]);
     }
 
@@ -173,5 +183,39 @@ class CoursController extends AbstractController
         ));
     }
 
+
+    #[Route('/save-rating', name: 'save_rating', methods: ['POST'])]
+    public function saveRating(Request $request): Response
+    {
+        // Récupérer les données de la requête AJAX
+        $value = $request->request->get('value');
+        $courseId = $request->request->get('courseId');
+
+        // Récupérer le cours associé à l'ID
+        $cours = $this->getDoctrine()->getRepository(Cours::class)->find($courseId);
+
+        if (!$cours) {
+            // Si le cours n'est pas trouvé, retourner une réponse d'erreur
+            return new Response('Course not found', Response::HTTP_NOT_FOUND);
+        }
+
+        // Créer une nouvelle instance de l'entité Avis
+        $avis = new Avis();
+        $avis->setEtoiles($value);
+        $avis->setCours($cours);
+
+        // Récupérer le gestionnaire d'entités de Doctrine
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // Persistez l'entité dans la base de données
+        $entityManager->persist($avis);
+        $entityManager->flush();
+
+        // Récupérer le nombre total d'avis pour ce cours
+        $totalReviews = $this->getDoctrine()->getRepository(Avis::class)->getTotalReviewsForCours($cours);
+
+        // Réponse à renvoyer à la requête AJAX
+        return new JsonResponse(['totalReviews' => $totalReviews]);
+    }
 
 }

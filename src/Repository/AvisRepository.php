@@ -20,7 +20,7 @@ class AvisRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Avis::class);
     }
-    public function getAverageRatingForCours(Cours $cours): ?float
+  /*  public function getAverageRatingForCours(Cours $cours): ?float
     {
         return $this->createQueryBuilder('a')
             ->select('AVG(a.etoiles) as average_rating')
@@ -28,7 +28,19 @@ class AvisRepository extends ServiceEntityRepository
             ->setParameter('cours', $cours)
             ->getQuery()
             ->getSingleScalarResult();
+    }*/
+    public function getAverageRatingForCours(Cours $cours): float
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->select('AVG(a.etoiles)')
+            ->where('a.cours = :cours')
+            ->setParameter('cours', $cours);
+
+        $averageRating = $queryBuilder->getQuery()->getSingleScalarResult();
+
+        return $averageRating !== null ? (float) $averageRating : 0.0;
     }
+
     public function getRatingsForCours(Cours $cours): array
     {
         $qb = $this->createQueryBuilder('a')
@@ -45,6 +57,16 @@ class AvisRepository extends ServiceEntityRepository
         }, $ratings);
 
         return $etoilesArray;
+    }
+
+    public function getTotalReviewsForCours(Cours $cours): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.cours = :cours')
+            ->setParameter('cours', $cours)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
 //    /**

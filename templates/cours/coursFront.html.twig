@@ -1,6 +1,14 @@
 {% extends 'baseFront.html.twig' %}
 
 {% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <style>
         /* CSS personnalisé pour agrandir la case de recherche et mettre en gras la phrase */
         .custom-search-input {
@@ -29,7 +37,6 @@
         </div>
     </div>
 
-
     <div class="properties__card">
         <div class="row" id="searchResults">
             {% for p in listS %}
@@ -38,16 +45,17 @@
                         <img src="{{ p.coursimage }}" class="img-fluid mx-auto d-block" alt="" style="max-width: 100px; max-height: 100px;">
                         <h3><a href="#">Cours Name: {{ p.coursname }}</a></h3>
                         <p>Description: {{ p.coursdescription }}</p>
-                        <div class="rating">
-                            {% for i in range(1, 5) %}
-                                {% if i <= averageRatings[p.id] %}
-                                    <i class="fas fa-star"></i>
-                                {% else %}
-                                    <i class="far fa-star"></i>
-                                {% endif %}
-                            {% endfor %}
-                            <span>({{ averageRatings[p.id] }})</span> based on {{ p.avis|length }} reviews
+                        <div class="rating" data-course="{{ p.id }}" data-course-name="{{ p.coursname }}">
+                            <div class="stars">
+                                <i class="far fa-star star" data-value="1"></i>
+                                <i class="far fa-star star" data-value="2"></i>
+                                <i class="far fa-star star" data-value="3"></i>
+                                <i class="far fa-star star" data-value="4"></i>
+                                <i class="far fa-star star" data-value="5"></i>
+                            </div>
+                            <span class="average-rating" data-course="{{ p.id }}">{{ averageRatings[p.id] }}</span> based on <span class="review-count">{{ p.avis|length }}</span> reviews
                         </div>
+
                         <div class="price">
                             <span>Prix: {{ p.coursprix }}TND</span>
                         </div>
@@ -67,12 +75,19 @@
         </div>
     </div>
 
-
+    <!-- Messages flash -->
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
     <!-- Scripts JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
             $("#search").keyup(function() {
                 var value = $(this).val().toLowerCase();
                 $("#searchResults .col-md-4").each(function() {
@@ -84,20 +99,60 @@
                     }
                 });
             });
-        });
-    </script>
 
-    <script>
-        $(document).ready(function(){
-            $(".btn1").click(function(){
-                $("h1").slideUp();
+            $('.stars .star').on('click', function() {
+                var value = $(this).data('value');
+                var courseName = $(this).closest('.rating').data('course-name');
+
+                // Afficher la boîte de dialogue de confirmation
+                var confirmMessage = "Tu sélectionnes " + value + " étoiles pour le cours '" + courseName + "'. Confirmez-vous ?";
+                if (confirm(confirmMessage)) {
+                    // Si l'utilisateur clique sur Oui, effectuez l'action
+                    var courseId = $(this).closest('.rating').data('course');
+                    saveRating(value, courseId);
+                }
             });
-            $(".btn2").click(function(){
-                $("h1").slideDown();
-            });
-            $(".btn3").click(function(){
-                $("h1").slideToggle();
+
+            $('.stars .star').hover(function() {
+                var value = $(this).data('value');
+                $(this).prevAll().addBack().addClass('fas').removeClass('far');
+                $(this).nextAll().removeClass('fas').addClass('far');
+            }, function() {
+                var courseId = $(this).closest('.rating').data('course');
+                var rating = $(this).closest('.stars').find('.fas').length;
+                if (rating === 0) {
+                    $(this).siblings().removeClass('fas').addClass('far');
+                }
             });
         });
+
+        function saveRating(value, courseId) {
+            $.ajax({
+                url: '/save-rating',
+                method: 'POST',
+                data: {
+                    value: value,
+                    courseId: courseId
+                },
+                success: function(response) {
+                    console.log('Rating saved successfully');
+                    // Mettre à jour le nombre d'avis affiché
+                    var newRating = parseInt($('.rating[data-course="' + courseId + '"] .review-count').text()) + 1;
+                    $('.rating[data-course="' + courseId + '"] .review-count').text(newRating);
+
+                    // Mettre à jour la moyenne des évaluations affichée
+                    var currentAverageRating = parseFloat($('.rating[data-course="' + courseId + '"] .average-rating').text());
+                    var totalRatings = parseInt($('.rating[data-course="' + courseId + '"] .review-count').text());
+                    var newAverageRating = ((currentAverageRating * (totalRatings - 1)) + value) / totalRatings;
+                    $('.rating[data-course="' + courseId + '"] .average-rating').text(newAverageRating.toFixed(1));
+                },
+
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+
     </script>
 {% endblock %}

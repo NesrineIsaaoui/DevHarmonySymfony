@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Cours;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AvisController extends AbstractController
 {
@@ -21,6 +22,7 @@ class AvisController extends AbstractController
         $avis = $em->findAll();
         return $this->render('avis/index.html.twig', ['avis' => $avis]);
     }
+
     #[Route('/ajoutAvis', name: 'ajoutAvis')]
     public function ajoutAvis(Request $request): Response
     {
@@ -40,6 +42,7 @@ class AvisController extends AbstractController
             ['f' => $form->createView()]
         );
     }
+
     #[Route('/modifierAvis/{id}', name: 'modifierAvis')]
     public function modifierAvis(Request $request, $id): Response
     {
@@ -59,6 +62,7 @@ class AvisController extends AbstractController
             ['f' => $form->createView()]
         );
     }
+
     #[Route('/supprimerAvis/{id}', name: 'supprimerAvis')]
     public function supprimerAvis(Avis $category): Response
     {
@@ -79,7 +83,7 @@ class AvisController extends AbstractController
         $ratings = $repository->getRatingsForCours($cours);
 
         // Filtrer les éléments non valides (ni integer ni string)
-        $filteredRatings = array_filter($ratings, function($rating) {
+        $filteredRatings = array_filter($ratings, function ($rating) {
             return is_int($rating) || is_string($rating);
         });
 
