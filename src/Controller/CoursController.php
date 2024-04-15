@@ -30,23 +30,26 @@ class CoursController extends AbstractController
     public function coursFront(Request $request, PaginatorInterface $paginator): Response
     {
         $repository = $this->getDoctrine()->getRepository(Cours::class);
-        $prods = $repository->findAll(); // Select * from cours;
-        $searchedCours = $request->query->get('searchedCours');
         $queryBuilder = $repository->createQueryBuilder('t');
+
         // Calculate average ratings for each course
         $averageRatings = [];
+        $prods = $queryBuilder->getQuery()->getResult(); // Get all courses before pagination
+
         foreach ($prods as $cours) {
             $averageRating = $this->getDoctrine()->getRepository(Avis::class)->getAverageRatingForCours($cours);
             $averageRatings[$cours->getId()] = $averageRating;
         }
+
+        $searchedCours = $request->query->get('searchedCours');
+
         if (!empty($searchedCours)) {
             $queryBuilder->andWhere('t.coursname LIKE :searchTerm')
                 ->setParameter('searchTerm', '%' . $searchedCours . '%');
         }
 
-        $query = $queryBuilder->getQuery();
         $pagination = $paginator->paginate(
-            $prods,
+            $queryBuilder,
             $request->query->getInt('page', 1), // Current page number
             3 // Number of items per page
         );
@@ -183,6 +186,29 @@ class CoursController extends AbstractController
             'categoryName' => $prod->getIdcategory()->getCategoryname()
         ));
     }
+    #[Route('/detailCoursFront/{id}', name: 'detailCoursFront')]
+    public function detailCoursFront(\Symfony\Component\HttpFoundation\Request $req, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $prod = $em->getRepository(Cours::class)->find($id);
+
+        // Chemin absolu complet de l'image
+        $absoluteImagePath = $prod->getCoursimage();
+
+        // Supprimer la partie du chemin absolu correspondant au répertoire racine du projet Symfony
+        $relativeImagePath = str_replace($this->getParameter('kernel.project_dir') . '/public', '', $absoluteImagePath);
+
+        return $this->render('cours/detailCoursFront.html.twig', array(
+            'id' => $prod->getId(),
+            'coursname' => $prod->getCoursname(),
+            'coursdescription' => $prod->getCoursdescription(),
+            'coursimage' => $relativeImagePath, // Utiliser le chemin relatif ici
+            'coursprix' => $prod->getCoursprix(),
+            'categoryName' => $prod->getIdcategory()->getCategoryname()
+        ));
+    }
+
+
 
 
     #[Route('/save-rating', name: 'save_rating', methods: ['POST'])]

@@ -43,7 +43,7 @@
                 <div class="col-md-4">
                     <div class="properties__caption text-center">
                         <img src="{{ p.coursimage }}" class="img-fluid mx-auto d-block" alt="" style="max-width: 100px; max-height: 100px;">
-                        <h3><a href="#">Cours Name: {{ p.coursname }}</a></h3>
+                        <h3><a href="{{ path('detailCoursFront',{id:p.id}) }}">Cours Name: {{ p.coursname }}</a></h3>
                         <p>Description: {{ p.coursdescription }}</p>
                         <div class="rating" data-course="{{ p.id }}" data-course-name="{{ p.coursname }}">
                             <div class="stars">
