@@ -13,7 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class CoursController extends AbstractController
 {
 
@@ -217,5 +218,67 @@ class CoursController extends AbstractController
         // Réponse à renvoyer à la requête AJAX
         return new JsonResponse(['totalReviews' => $totalReviews]);
     }
+
+    #[Route('/Cours/tricroi', name: 'tri', methods: ['GET', 'POST'])]
+    public function triCroissant(\App\Repository\CoursRepository $coursRepository): Response
+    {
+        $cours = $coursRepository->findAllSorted();
+
+        return $this->render('cours/index.html.twig', [
+            'listS' => $cours,
+        ]);
+    }
+
+    #[Route('/Cours/tridesc', name: 'trid', methods: ['GET', 'POST'])]
+    public function triDescroissant(\App\Repository\CoursRepository $coursRepository): Response
+    {
+        $cours = $coursRepository->findAllSorted1();
+
+        return $this->render('cours/index.html.twig', [
+            'listS' => $cours,
+        ]);
+    }
+
+
+    #[Route('/exportExcel', name: 'exportExcel')]
+    public function exportExcel()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Add headers to the sheet
+        $sheet->setCellValue('A1', 'ID');
+        $sheet->setCellValue('B1', 'COURSNAME');
+        $sheet->setCellValue('C1', 'COURSDESCRIPTION');
+        $sheet->setCellValue('D1', 'COURSIMAGE');
+        $sheet->setCellValue('E1', 'COURSPRIX');
+        $sheet->setCellValue('F1', 'COURS CATEGORIE');
+
+        // Get the products from the database
+        $products = $this->getDoctrine()->getRepository(Cours::class)->findAll();
+
+        // Add the products to the sheet
+        $row = 2;
+        foreach ($products as $product) {
+            $sheet->setCellValue('A' . $row, $product->getId());
+            $sheet->setCellValue('B' . $row, $product->getCoursname());
+            $sheet->setCellValue('C' . $row, $product->getCoursdescription());
+            $sheet->setCellValue('D' . $row, $product->getCoursimage());
+            $sheet->setCellValue('E' . $row, $product->getCoursprix());
+            $sheet->setCellValue('F' . $row, $product->getIdcategory()->getCategoryname());
+
+            $row++;
+        }
+
+
+        // Create the Excel file
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'cours.xlsx';
+        $writer->save($filename);
+
+        // Return the Excel file as a response
+        return $this->file($filename);
+    }
+
 
 }

@@ -28,7 +28,20 @@ class CoursRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findAllSorted(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('cl')
+            ->orderBy('cl.coursprix', 'ASC');
 
+        return $queryBuilder->getQuery()->getResult();
+    }
+    public function findAllSorted1(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('cl')
+            ->orderBy('cl.coursprix', 'DESC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 //    /**
 //     * @return Cours[] Returns an array of Cours objects
 //     */
