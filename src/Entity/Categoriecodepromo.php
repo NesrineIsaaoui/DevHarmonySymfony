@@ -1,99 +1,133 @@
 <?php
 
 namespace App\Entity;
+
+use App\Repository\CategoriecodepromoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-/**
- * Categoriecodepromo
- *
- * @ORM\Table(name="categoriecodepromo")
- * @ORM\Entity(repositoryClass=App\Repository\CategoriecodepromoRepository::class)
- * @UniqueEntity(fields={"code"}, message="This code is already in use.")
- */
+
+
+#[ORM\Entity(repositoryClass: CategoriecodepromoRepository::class)]
 class Categoriecodepromo
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="code", type="string", length=200, nullable=false)
-     * @Assert\NotBlank(message="Code should not be blank")
-     */
-    private $code;
+   
+#[ORM\Column(type: 'float', nullable: true)]
+#[Assert\NotNull (message: "Il faut remplire ce chemp")]
+private ?float $value = null;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="value", type="float", precision=10, scale=0, nullable=false)
-     * @Assert\NotBlank(message="Value should not be blank")
-     * @Assert\Type(type="float", message="Value should be a float")
-     * @Assert\Range(
-     *      min = 0.1,
-     *      max = 0.9,
-     *      minMessage = "Value must be at least 0.1",
-     *      maxMessage = "Value cannot be greater than 0.9"
-     * )
-     */
-    private $value;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotNull (message: "Il faut remplire ce chemp")]
+    private ?string $code = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="nb_users", type="integer", nullable=false)
-     * @Assert\NotBlank(message="Number of users should not be blank")
-     * @Assert\Type(type="integer", message="Number of users should be an integer")
-     */
-    private $nbUsers;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Assert\NotNull (message: "Il faut remplire ce chemp")]
+private ?int $nb_users = null;
+
+    #[ORM\OneToMany(mappedBy: 'categoriecodepromos', targetEntity: Reservation::class, orphanRemoval: true)]
+    private Collection $reservations;
+
+
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function getValue(): ?float
+{
+    return $this->value;
+}
+
+public function setValue(?float $value): self
+{
+    $this->value = $value;
+
+    return $this;
+}   
+    
+    
+
+    
+
+    
+
+   
+
     public function getCode(): ?string
     {
         return $this->code;
     }
 
-    public function setCode(string $code): static
+    public function setCode(string $code): self
     {
         $this->code = $code;
 
         return $this;
     }
 
-    public function getValue(): ?float
+
+
+    
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
     {
-        return $this->value;
+        return $this->reservations;
     }
 
-    public function setValue(float $value): static
+    public function addCReservationontrat( $reservation): self
     {
-        $this->value = $value;
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setCategoriecodepromos($this);
+        }
 
         return $this;
     }
 
+    public function removeCReservationontrat( $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getCategoriecodepromos() === $this) {
+                $reservation->setCategoriecodepromos(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
+    
+
+    
+    
     public function getNbUsers(): ?int
-    {
-        return $this->nbUsers;
-    }
+{
+    return $this->nb_users;
+}
 
-    public function setNbUsers(int $nbUsers): static
-    {
-        $this->nbUsers = $nbUsers;
+public function setNbUsers(?int $nb_users): self
+{
+    $this->nb_users = $nb_users;
 
-        return $this;
-    }
+    return $this;
+}
 
-
+    
+    
 }

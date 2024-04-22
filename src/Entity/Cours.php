@@ -1,127 +1,138 @@
 <?php
 
 namespace App\Entity;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Cours
- *
- * @ORM\Table(name="cours", indexes={@ORM\Index(name="fk_category", columns={"idCategory"})})
- * @ORM\Entity(repositoryClass=App\Repository\CoursRepository::class)
- */
+use App\Repository\CoursRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: CoursRepository::class)]
 class Cours
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="coursName", type="string", length=50, nullable=false)
-     */
-    private $coursname;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le champ de description du cours ne peut pas être vide")]
+    #[Assert\Length(max: 255, maxMessage: "La description du cours ne peut pas dépasser {{ limit }} caractères")]
+    private ?string $coursDescription = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="coursDescription", type="string", length=255, nullable=false)
-     */
-    private $coursdescription;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le champ de nom du cours ne peut pas être vide")]
+    private ?string $Name = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="coursImage", type="string", length=255, nullable=false)
-     */
-    private $coursimage;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le champ de prix du cours ne peut pas être vide")]
+    #[Assert\Regex(
+        pattern: '/^\d+(\.\d{1,2})?$/',
+        message: "Le prix du cours doit être un nombre avec maximum 2 décimales"
+    )]
+    #[Assert\GreaterThanOrEqual(value: 0, message: "Le prix du cours ne peut pas être négatif")]
+    private ?string $coursPrix = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="coursPrix", type="integer", nullable=false)
-     */
-    private $coursprix;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "L'image ne peut pas être vide")]
+    private ?string $image = null;
 
-    /**
-     * @var Courscategory
-     *
-     * @ORM\ManyToOne(targetEntity="Courscategory")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idCategory", referencedColumnName="id")
-     * })
-     */
-    private $idcategory;
+    #[ORM\OneToMany(mappedBy: 'courss', targetEntity: Reservation::class, orphanRemoval: true)]
+    private Collection $reservations;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
+    
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCoursname(): ?string
+    public function getCoursDescription(): ?string
     {
-        return $this->coursname;
+        return $this->coursDescription;
     }
 
-    public function setCoursname(string $coursname): static
+    public function setCoursDescription(string $coursDescription): self
     {
-        $this->coursname = $coursname;
-
-        return $this;
-    }
-
-    public function getCoursdescription(): ?string
-    {
-        return $this->coursdescription;
-    }
-
-    public function setCoursdescription(string $coursdescription): static
-    {
-        $this->coursdescription = $coursdescription;
-
-        return $this;
-    }
-
-    public function getCoursimage(): ?string
-    {
-        return $this->coursimage;
-    }
-
-    public function setCoursimage(string $coursimage): static
-    {
-        $this->coursimage = $coursimage;
-
-        return $this;
-    }
-
-    public function getCoursprix(): ?int
-    {
-        return $this->coursprix;
-    }
-
-    public function setCoursprix(int $coursprix): static
-    {
-        $this->coursprix = $coursprix;
-
-        return $this;
-    }
-
-    public function getIdcategory(): ?Courscategory
-    {
-        return $this->idcategory;
-    }
-
-    public function setIdcategory(?Courscategory $idcategory): static
-    {
-        $this->idcategory = $idcategory;
+        $this->coursDescription = $coursDescription;
 
         return $this;
     }
 
 
+
+    
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addCReservationontrat( $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setCourss($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCReservationontrat( $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getCourss() === $this) {
+                $reservation->setCourss(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->Name;
+    }
+
+    public function setName(string $Name): self
+    {
+        $this->Name = $Name;
+
+        return $this;
+    }
+    public function getCoursPrix(): ?string
+    {
+        return $this->coursPrix;
+    }
+
+    public function setCoursPrix(string $coursPrix): self
+    {
+        $this->coursPrix = $coursPrix;
+
+        return $this;
+    }
+    
+   
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+    
 }

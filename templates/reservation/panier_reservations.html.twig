@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier des Réservations{% endblock %}
+{% block body %}
+
+<img src="{{ asset('assets/img/aaaa.png') }}" alt="Votre Image">
+
+<section class="parallax-window" data-parallax="scroll" style="" data-natural-width="1400" data-natural-height="470">
+    <div class="parallax-content-1 opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.4)">
+        <div class="animated fadeInDown">
+            <h1>Panier des Réservations</h1>
+            <p>Les réservations en attente de paiement</p>
+        </div>
+    </div>
+</section>
+
+<div class="card-body">
+    <h5 class="card-title">Réservations en attente de paiement</h5>
+
+    {% for reservation in reservations %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">ID: {{ reservation.id }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Code Promo: {{ reservation.categoriecodepromos.code }}</h6>
+            <h7 class="card-subtitle mb-2 text-muted">Cours: {{ reservation.courss.name }}</h7>
+            <p class="card-subtitle mb-2 text-muted">Statut de paiement: {{ reservation.paidStatus }}</p>
+            <p class="card-subtitle mb-2 text-muted">Statut de réservation: {{ reservation.resStatus }}</p>
+            
+            <p class="card-text">Date de réservation: {{ reservation.date_reservation|date('d-m-Y') }}</p>
+
+            <div class="btn-group" role="group" aria-label="Actions">
+                <a class="btn cur-p btn-danger" href="{{ path('delete_adh', {'id': reservation.id}) }}">Supprimer</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="pagination">
+        {# Affichage de la pagination ici #}
+    </div>
+
+    {# Bouton de paiement #}
+    <a href="{{ path('process_payment') }}" class="btn btn-primary">Procéder au paiement</a>
+</div>
+
+{% endblock %}

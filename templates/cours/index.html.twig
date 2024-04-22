@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Liste des formations</h5>
+
+                            <!-- Formulaire de recherche -->
+                            <form action="{{ path('afficher_cours') }}" method="GET">
+                                <div class="form-group">
+                                    <label for="search">Rechercher par  Description :</label>
+                                    <input type="text" class="form-control" id="search" name="search" value="{{ app.request.query.get('search') }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Rechercher</button>
+                            </form>
+                            <!-- Fin du formulaire de recherche -->
+
+                            <!-- Tableau des courss filtrées -->
+                            {% for recl in Cours %}
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Nom: {{ recl.name }}</h5>
+                                    
+                                    
+                                    
+                                    <p class="card-text">Description: {{ recl.coursDescription }}</p>
+                                    <p class="card-text">coursPrix: {{ recl.coursPrix }}</p>
+                                    
+                                    <img src="{{ asset('uploads/images/' ~ recl.image) }}" style="width:80px; height:80px;" />
+                                    <div class="btn-group" role="group" aria-label="Actions">
+                                        <a class="btn cur-p btn-primary" href="{{ path('add_reservation', {'id': recl.id}) }}">Reserver</a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- Fin du tableau des courss filtrées -->
+
+                            <!-- Pagination -->
+                            <div class="pagination">
+                                {% set currentPage = Cours.currentPageNumber %}
+                                {% set previous = currentPage > 1 ? currentPage - 1 : false %}
+                                {% set next = currentPage < Cours.pageCount ? currentPage + 1 : false %}
+                                <ul class="pagination">
+                                    {% if previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('afficher_cours') }}?page={{ previous }}">Précédent</a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ currentPage }}</span>
+                                    </li>
+                                    {% if next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('afficher_cours') }}?page={{ next }}">Suivant</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <!-- Fin de la pagination -->
+                            <!-- Ajoutez ce lien à la suite de votre contenu -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

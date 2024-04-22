@@ -2,172 +2,112 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
+use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-/**
- * Reservation
- *
- * @ORM\Table(name="reservation", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="id_cours", columns={"id_cours"}), @ORM\Index(name="id_codepromo", columns={"id_codepromo"})})
-  * @ORM\Entity(repositoryClass=App\Repository\ReservationRepository::class)
- */
+use App\Repository\CategoriecodepromoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+
+
+#[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="resStatus", type="boolean", nullable=false)
-     */
-    private $resstatus;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThan("now", message: "La date doit être postérieure à aujourd'hui")]
+    public ?\DateTimeInterface $date_reservation = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_reservation", type="datetime", nullable=false)
-     */
-    private $dateReservation;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $resStatus = null;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="prixd", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $prixd;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $paidStatus = null;
+  
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Categoriecodepromo $categoriecodepromos = null;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="paidStatus", type="boolean", nullable=false)
-     */
-    private $paidstatus;
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Cours $courss = null;
 
-    /**
-     * @var Cours
-     *
-     * @ORM\ManyToOne(targetEntity="Cours")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_cours", referencedColumnName="id")
-     * })
-     */
-    private $idCours;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
-     * })
-     */
-    private $idUser;
-
-    /**
-     * @var Categoriecodepromo
-     *@Assert\Valid
-     * @ORM\ManyToOne(targetEntity="Categoriecodepromo")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_codepromo", referencedColumnName="id")
-     * })
-     */
-    private $idCodepromo;
 
     public function getId(): ?int
     {
         return $this->id;
     }
+    public function getResStatus(): ?bool
+{
+    return $this->resStatus;
+}
 
-    public function isResstatus(): ?bool
+public function setResStatus(?bool $resStatus): self
+{
+    $this->resStatus = $resStatus;
+    return $this;
+}
+
+// Méthodes d'accès pour prixd
+
+
+// Méthodes d'accès pour paidStatus
+public function getPaidStatus(): ?bool
+{
+    return $this->paidStatus;
+}
+
+public function setPaidStatus(?bool $paidStatus): self
+{
+    $this->paidStatus = $paidStatus;
+    return $this;
+}
+
+    public function getCategoriecodepromos(): ?Categoriecodepromo
     {
-        return $this->resstatus;
+        return $this->categoriecodepromos;
     }
 
-    public function setResstatus(bool $resstatus): static
+    public function setCategoriecodepromos(?categoriecodepromo $s): self
     {
-        $this->resstatus = $resstatus;
+        $this->categoriecodepromos = $s;
+
+        return $this;
+   }
+   public function getCourss(): ?Cours
+    {
+        return $this->courss;
+    }
+
+    public function setCourss(?cours $s): self
+    {
+        $this->courss = $s;
+
+        return $this;
+   }
+  
+   public function getDate_reservation(): ?\DateTimeInterface
+    {
+        return $this->date_reservation;
+    }
+
+    public function setDate_reservation(\DateTimeInterface $date_reservation): self
+    {
+        $this->date_reservation = $date_reservation;
 
         return $this;
     }
 
-    public function getDateReservation(): ?\DateTimeInterface
-    {
-        return $this->dateReservation;
-    }
-
-    public function setDateReservation(\DateTimeInterface $dateReservation): static
-    {
-        $this->dateReservation = $dateReservation;
-
-        return $this;
-    }
-
-    public function getPrixd(): ?float
-    {
-        return $this->prixd;
-    }
-
-    public function setPrixd(float $prixd): static
-    {
-        $this->prixd = $prixd;
-
-        return $this;
-    }
-
-    public function isPaidstatus(): ?bool
-    {
-        return $this->paidstatus;
-    }
-
-    public function setPaidstatus(bool $paidstatus): static
-    {
-        $this->paidstatus = $paidstatus;
-
-        return $this;
-    }
-
-    public function getIdCours(): ?Cours
-    {
-        return $this->idCours;
-    }
-
-    public function setIdCours(?Cours $idCours): static
-    {
-        $this->idCours = $idCours;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?User
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser(?User $idUser): static
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
-
-    public function getIdCodepromo(): ?Categoriecodepromo
-    {
-        return $this->idCodepromo;
-    }
-
-    public function setIdCodepromo(?Categoriecodepromo $idCodepromo): static
-    {
-        $this->idCodepromo = $idCodepromo;
-
-        return $this;
-    }
+   
 
 
+
+   
+   
 }
