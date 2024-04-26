@@ -1,0 +1,36 @@
+#[Route('/afficher_formations', name: 'afficher_formations')]
+public function AfficherFront(FormationsRepository $repo, PaginatorInterface $paginator, Request $request): Response
+{
+    $courss=$repo->findAll() ;
+
+    $pagination = $paginator->paginate(
+        $courss,
+        $request->query->getInt('page', 1),
+         1
+    );
+
+    return $this->render('cours/index.html.twig', [
+        'Cours' => $pagination,
+        'ajoutA' => $courss
+    ]);
+}
+
+
+#[Route('/afficher_form2', name: 'afficher_form2')]
+   
+   public function AfficherBack(FormationsRepository $repo, PaginatorInterface $paginator, Request $request): Response
+   {
+       $courss=$repo->findAll() ;
+   
+       $pagination = $paginator->paginate(
+           $courss,
+           $request->query->getInt('page', 1),
+           1 // items per page
+       );
+   
+       return $this->render('cours/index2.html.twig', [
+           'Cours' => $pagination,
+           'ajoutA' => $courss
+       ]);
+   }
+   

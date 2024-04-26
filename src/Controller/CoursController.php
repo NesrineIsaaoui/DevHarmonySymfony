@@ -41,6 +41,7 @@ class CoursController extends AbstractController
         ]);
     }
 
+
     #[Route('/add_cours', name: 'add_cours')]
     public function Add(Request  $request , ManagerRegistry $doctrine ,SluggerInterface $slugger, SessionInterface $session) : Response {
         $Cours =  new Cours() ;
@@ -75,6 +76,7 @@ class CoursController extends AbstractController
         ]) ;
     }
 
+
     #[Route('/afficher_formations', name: 'afficher_cours')]
 public function AfficheCours(CoursRepository $repo, PaginatorInterface $paginator, Request $request): Response
 {
@@ -85,7 +87,6 @@ public function AfficheCours(CoursRepository $repo, PaginatorInterface $paginato
         $request->query->getInt('page', 1),
          1
     );
-
     return $this->render('cours/index.html.twig', [
         'Cours' => $pagination,
         'ajoutA' => $courss
@@ -111,7 +112,6 @@ public function AfficheCours2(CoursRepository $repo, PaginatorInterface $paginat
     ]);
 }
 
-
     #[Route('/delete_ab/{ii}', name: 'delete_ab')]
     public function Delete($id,CoursRepository $repository , ManagerRegistry $doctrine) : Response {
         $Cours=$repository->find($id) ;
@@ -121,7 +121,7 @@ public function AfficheCours2(CoursRepository $repo, PaginatorInterface $paginat
         return $this->redirectToRoute("afficher_cours") ;
 
     }
-
+    
      #[Route('/delete_av/{id}', name: 'delete_av')]
     public function Delete2($id,CoursRepository $repository , ManagerRegistry $doctrine) : Response {
         $Cours=$repository->find($id) ;
@@ -156,7 +156,7 @@ public function AfficheCours2(CoursRepository $repo, PaginatorInterface $paginat
             return $this ->redirectToRoute('afficher_cours') ;
         }
         return $this->render('cours/updatecourss.html.twig' , [
-            'ff' => $form->createView()
+            'form' => $form->createView()
         ]) ;
 
     }

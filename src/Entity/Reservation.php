@@ -79,7 +79,7 @@ public function setPaidStatus(?bool $paidStatus): self
         $this->categoriecodepromos = $s;
 
         return $this;
-   }
+    }
    public function getCourss(): ?Cours
     {
         return $this->courss;

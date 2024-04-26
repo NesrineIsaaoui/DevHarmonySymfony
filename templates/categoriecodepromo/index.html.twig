@@ -1,76 +1,93 @@
 {% extends 'admin.html.twig' %}
 
+{% block title %}codepromo{% endblock %}
+
 {% block body %}
-<div class="content-page">
-    <div class="content">
-        <div class="container-fluid">
+    <main id="main" class="main">
+        
+        <section class="section">
             <div class="row">
-                <div class="col-12">
+                <div class="col-lg-12">
+
                     <div class="card">
+
+                        {% for message in app.flashes('notice') %}
+                            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+
+                        {% for message in app.flashes('noticedelete') %}
+                            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+  {% for message in app.flashes('noticeupdate') %}
+                            <div class="alert alert-primary bg-primary text-light border-0 alert-dismissible fade show" role="alert">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
                         <div class="card-body">
-                            <h5 class="card-title">Liste des reservation</h5>
 
-                            <!-- Formulaire de recherche -->
-                            <form action="{{ path('afficher_categoriecodepromo') }}" method="GET">
-                                <div class="form-group">
-                                    <label for="search">Rechercher par  code :</label>
-                                    <input type="text" class="form-control" id="search" value="search" value="{{ app.request.query.get('search') }}">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Rechercher</button>
-                            </form>
-                            <!-- Fin du formulaire de recherche -->
+                            <h5 class="card-title">List codepromos</h5>
+                            <a href="{{ path('app_categoriecodepromo_new') }}">
+                                <button type="button" style="float: right;padding: 10px;" class="btn btn-outline-primary btn-icon-text"><i class="mdi mdi-pencil btn-icon-prepend"></i>create new code promo</button>
+                            </a>
 
-                            <!-- Tableau des categoriecodepromos filtrées -->
-                            {% for recl in Categoriecodepromo %}
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">value: {{ recl.value }}</h5>
-                                    
-                                    
-                                    
-                                    <p class="card-text">Code: {{ recl.code }}</p>
-                                    
-                                    
-                                    
-                                    
-                                    <div class="btn-group" role="group" aria-label="Actions">
-                                        
-                                        <a class="btn cur-p btn-danger" href="{{ path('delete_av', {'id': recl.id}) }}">Supprimer</a>
-                                        <a class="btn cur-p btn-success" href="{{ path('update_av', {'id': recl.id}) }}">mise a jour</a>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            <!-- Fin du tableau des categoriecodepromos filtrées -->
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Code</th>
+                <th scope="col">Value</th>
+                <th scope="col">NbUsers</th>
+                <th scope="col">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% for categoriecodepromo in categoriecodepromos %}
+            <tr>
+                <td>{{ categoriecodepromo.id }}</td>
+                <td>{{ categoriecodepromo.code }}</td>
+                <td>{{ categoriecodepromo.value }}</td>
+                <td>{{ categoriecodepromo.nbUsers }}</td>
+                <td>
+                    <a href="{{ path('app_categoriecodepromo_show', {'id': categoriecodepromo.id}) }}"><button type="button" class="btn btn-outline-info">show</button></a>
+                    <a href="{{ path('app_categoriecodepromo_edit', {'id': categoriecodepromo.id}) }}"><button type="button" class="btn btn-outline-success">edit</button></a>
+                </td>
+            </tr>
+       
+        {% endfor %}
+           <tr>
+                                    <td>
+                                        {% if categoriecodepromos | length == 0 %}
 
-                            <!-- Pagination -->
-                            <div class="pagination">
-                                {% set currentPage = Categoriecodepromo.currentPageNumber %}
-                                {% set previous = currentPage > 1 ? currentPage - 1 : false %}
-                                {% set next = currentPage < Categoriecodepromo.pageCount ? currentPage + 1 : false %}
-                                <ul class="pagination">
-                                    {% if previous %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('afficher_categoriecodepromo') }}?page={{ previous }}">Précédent</a>
-                                        </li>
-                                    {% endif %}
-                                    <li class="page-item active">
-                                        <span class="page-link">{{ currentPage }}</span>
-                                    </li>
-                                    {% if next %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('afficher_categoriecodepromo') }}?page={{ next }}">Suivant</a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                            <!-- Fin de la pagination -->
-                            <!-- Ajoutez ce lien à la suite de votre contenu -->
-                        </div>
+                                            <p style="text-align: center">code promo vides</p>
+
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+        </tbody>
+    </table>
+
+
+      </div>
+
                     </div>
+
+
+
                 </div>
+
+
             </div>
-        </div>
-    </div>
-</div>
+        </section>
+
+    </main>
 {% endblock %}

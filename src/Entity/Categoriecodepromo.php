@@ -58,14 +58,6 @@ public function setValue(?float $value): self
     return $this;
 }   
     
-    
-
-    
-
-    
-
-   
-
     public function getCode(): ?string
     {
         return $this->code;
@@ -110,13 +102,8 @@ public function setValue(?float $value): self
 
         return $this;
     }
-
     
-    
-
-    
-    
-    public function getNbUsers(): ?int
+public function getNbUsers(): ?int
 {
     return $this->nb_users;
 }
@@ -127,7 +114,5 @@ public function setNbUsers(?int $nb_users): self
 
     return $this;
 }
-
-    
     
 }
