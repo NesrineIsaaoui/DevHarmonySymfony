@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Publication Created</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>New Publication Created</h1>
+        <p>A new publication has been created:</p>
+        <ul>
+            <li><strong>Title:</strong> {{ publication.titre }}</li>
+            <li><strong>Content:</strong> {{ publication.contenu }}</li>
+            <li><strong>Date of Publication:</strong> {{ publication.datePublication ? publication.datePublication|date('Y-m-d H:i:s') : '' }}</li>
+        </ul>
+    </div>
+</body>
+</html>

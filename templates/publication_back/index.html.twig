@@ -1,0 +1,103 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Publication Index{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <h1 class="display-4 mb-4">Publication Index</h1>
+
+    <div class="d-flex justify-content-between mb-4">
+        <a href="{{ path('app_publication_back_new') }}" class="btn btn-success">Create New</a>
+        <div>
+            <a href="{{ path('export_pdf') }}" class="btn btn-outline-primary">Export to PDF</a>
+            <a href="{{ path('export_excel') }}" class="btn btn-outline-success">Export to Excel</a>
+        </div>
+    </div>
+    <div class="mt-4">
+        <label for="filterSelect" class="form-label">Filter by:</label>
+        <select id="filterSelect" class="form-select">
+            <option value="title">Title</option>
+            <option value="content">Content</option>
+            <option value="date">Date</option>
+        </select>
+        <!-- Filter button -->
+        <button id="filterButton" class="btn btn-primary">Filter</button>
+
+        <!-- Search form -->
+        <div class="mt-4">
+    <!-- Search form -->
+    <input type="text" id="queryInput" class="form-control" placeholder="Search for publications" aria-label="Search">
+</div>
+
+
+    </div>
+    <div class="card border-0 shadow">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Titre</th>
+                        <th>Contenu</th>
+                        <th>Date de Publication</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="publicationTable">
+                    {% for publication in publications %}
+                        <tr>
+                            <td>{{ publication.id }}</td>
+                            <td>{{ publication.titre }}</td>
+                            <td>{{ publication.contenu }}</td>
+                            <td>{{ publication.datePublication ? publication.datePublication|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <a href="{{ path('app_publication_back_show', {'id': publication.id}) }}" class="btn btn-sm btn-info">Show</a>
+                                <a href="{{ path('app_publication_back_edit', {'id': publication.id}) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{ path('app_commentaire_new_2', {'publication_id': publication.id}) }}" class="btn btn-sm btn-success">Create Comment</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const queryInput = document.getElementById('queryInput');
+    const publicationTable = document.getElementById('publicationTable');
+
+    // Function to filter table rows
+    const filterTable = () => {
+        const query = queryInput.value.toLowerCase();
+        const rows = publicationTable.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) { // Skip the header row
+            const row = rows[i];
+            let shouldDisplay = false;
+
+            // Check each column in the row for a match with the query
+            for (let j = 0; j < row.cells.length - 1; j++) {
+                if (row.cells[j].innerText.toLowerCase().includes(query)) {
+                    shouldDisplay = true;
+                    break;
+                }
+            }
+
+            row.style.display = shouldDisplay ? '' : 'none';
+        }
+    };
+
+    // Trigger filter when input changes
+    queryInput.addEventListener('input', filterTable);
+});
+
+    </script>
+</div>
+{% endblock %}

@@ -1,0 +1,4 @@
+framework:
+    mailer:        
+        dsn: 'gmail+smtp://mehergames29@gmail.com:hpjdezarcfeoctgw@default'
+

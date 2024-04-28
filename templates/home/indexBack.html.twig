@@ -1,0 +1,75 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Hello Admin{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 stretch-card grid-margin">
+            <div class="card">
+                <div class="card-body"> 
+                    <h4 class="card-title">Statistics</h4>
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card bg-gradient-danger card-img-holder text-white">
+                <div class="card-body">
+                    <img src="{{ asset('Back/assets/images/dashboard/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Comments Count <i class="mdi mdi-comment mdi-24px float-right"></i></h4>
+                    <h2 class="mb-5">{{ commentCount }}</h2>
+                    <h6 class="card-text">Total comments</h6>
+                </div>
+            </div>
+            <div class="card bg-gradient-info card-img-holder text-white mt-3">
+                <div class="card-body">
+                    <img src="{{ asset('Back/assets/images/dashboard/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Publications Count <i class="mdi mdi-newspaper mdi-24px float-right"></i></h4>
+                    <h2 class="mb-5">{{ publicationCount }}</h2>
+                    <h6 class="card-text">Total publications</h6>
+                </div>
+            </div>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Data for the chart
+        var data = {
+            labels: ['Comments', 'Publications'],
+            datasets: [{
+                label: 'Statistics',
+                data: [{{ commentCount }}, {{ publicationCount }}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Chart options
+        var options = {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        // Get the context of the canvas element
+        var ctx = document.getElementById('statsChart').getContext('2d');
+
+        // Create the chart
+        var statsChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    </script>
+{% endblock %}

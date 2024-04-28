@@ -1,0 +1,21 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+export_pdf:
+    path: /export-pdf
+    controller: App\Controller\PublicationBackController::exportPDF
+
+export_excel:
+    path: /export-excel
+    controller: App\Controller\PublicationBackController::export
+    methods: ['GET']
+
+app_publication_search:
+    path: /search
+    controller: App\Controller\PublicationBackController::search
+    methods: ['GET']
+
+app_publication_back_delete2:
+    path: /{id}
+    controller: App\Controller\PublicationBackController::delete2
+    methods: [POST]
