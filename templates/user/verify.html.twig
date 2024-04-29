@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verify{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="mb-4">Verify</h1>
+                <p>Please verify your account.</p>
+                <p>An email has been sent to your email address with further instructions.</p>
+                <form action="{{ path('verification_submit') }}" method="post">
+                    <div class="form-group">
+                        <label for="verification_code">Verification Code:</label>
+                        <input type="text" id="verification_code" name="verification_code" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

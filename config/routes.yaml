@@ -1,0 +1,18 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+verification_sms:
+  path: /verification_sms
+  controller: App\Controller\UserController::verificationSms
+  methods: [GET]
+
+verification_submit:
+  path: /verification_submit
+  controller: App\Controller\UserController::verificationSubmit
+  methods: [POST]
+
+verification_forget:
+  path: /verification_forget
+  controller: App\Controller\UserController::verificationForget
+  methods: [GET, POST]
