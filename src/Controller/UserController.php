@@ -310,6 +310,9 @@ public function forgetPassword(Request $request, SessionInterface $session): Res
 
                 $user->setImage($newFilename);
             }
+            $password = $user->getMdp();
+            $hashedPassword = md5($password);
+            $user->setMdp($hashedPassword);
             $verificationCode = rand(100000, 999999);
             $user->setConfirmcode((string)$verificationCode);
 
