@@ -2,63 +2,85 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity]
+/**
+ * @ORM\Entity
+ */
 class User
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "IDENTITY")]
-    #[ORM\Column(name: "id", type: "integer", nullable: false)]
-    private int $id;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-    #[ORM\Column(name: "nom", type: "string", length: 15, nullable: false)]
-    #[Assert\NotBlank(message: "Please enter a name.")]
-    #[Assert\Length(max: 15, maxMessage: "Name must be at most {{ limit }} characters long.")]
-    private ?string $nom;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    private $nom;
 
-    #[ORM\Column(name: "prenom", type: "string", length: 15, nullable: false)]
-    #[Assert\NotBlank(message: "Please enter a last name.")]
-    #[Assert\Length(max: 15, maxMessage: "Last name must be at most {{ limit }} characters long.")]
-    private ?string $prenom;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    private $prenom;
 
-    #[ORM\Column(name: "age", type: "integer", nullable: true)]
-    #[Assert\Range(min: 8, minMessage: "Age must be at least {{ limit }}.")]
-    private ?int $age;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $age;
 
-    #[ORM\Column(name: "image", type: "string", length: 255, nullable: true)]
-    private ?string $image;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
-    #[ORM\Column(name: "num_tel", type: "integer", nullable: true)]
-    private ?int $numTel;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numTel;
 
-    #[ORM\Column(name: "email", type: "string", length: 50, nullable: false, unique: true)]
-    #[Assert\NotBlank(message: "Please enter a password.")]
-    #[Assert\Length(min: 6, max: 100, minMessage: "Password must be at least {{ limit }} characters long.")]
-    private ?string $email;
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Email
+     */
+    private $email;
 
-    #[ORM\Column(name: "mdp", type: "string", length: 100, nullable: false)]
-    #[Assert\NotBlank(message: "Please enter a password.")]
-    #[Assert\Length(min: 6, max: 100, minMessage: "Password must be at least {{ limit }} characters long.")]
-    private ?string $mdp;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    private $mdp;
 
-    #[ORM\Column(name: "status", type: "string", length: 20, nullable: false)]
-    private ?string $status = "Active";
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status = 'Active';
 
-    #[ORM\Column(name: "resetcode", type: "integer", nullable: true)]
-    private ?int $resetcode;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $resetcode;
 
-    #[ORM\Column(name: "confirmcode", type: "string", length: 25, nullable: true)]
-    private ?string $confirmcode;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmcode;
 
-    #[ORM\Column(name: "statuscode", type: "integer", nullable: true)]
-    private ?int $statuscode;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $statuscode;
 
-    #[ORM\Column(name: "role", type: "string", length: 15, nullable: false)]
-    private $role = "Client";
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $role = 'Client';
 
     public function getId(): ?int
     {

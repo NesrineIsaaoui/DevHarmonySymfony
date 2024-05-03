@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <a href="{{ path('coursFront') }}">
+                        <i class="fa fa-arrow-circle-left" style="font-size: 30px; color: black;"></i>
+                    </a>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card">
+                            <img class="card-img-top" src="{{ asset(coursimage) }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h4 class="card-title" style="color: black;">Cours ID: {{ id }}</h4>
+                                <p  style="color: black;">Cours Name: {{ coursname }}</p>
+                                <p style="color: black;">Cours Description: {{ coursdescription }}</p>
+                                <p  style="color: black;">Prix: {{ coursprix }} TND</p>
+                                <p  style="color: black;">Categorie: {{ categoryName }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

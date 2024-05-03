@@ -7,67 +7,64 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" type="image/x-icon" href="assetsFront/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assetsFront/img/favicon.ico') }}">
 
     <!-- CSS here -->
-    <link rel="stylesheet" href= {{ asset('assetsFront/css/bootstrap.min.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/owl.carousel.min.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/slicknav.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/flaticon.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/progressbar_barfiller.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/gijgo.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/animate.min.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/animated-headline.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/magnific-popup.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/fontawesome-all.min.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/themify-icons.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/slick.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/nice-select.css') }}>
-    <link rel="stylesheet" href={{ asset('assetsFront/css/style.css') }}>
-    
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/slicknav.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/progressbar_barfiller.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/gijgo.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/animated-headline.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/nice-select.css') }}">
+    <link rel="stylesheet" href="{{ asset('assetsFront/css/style.css') }}">
+
 </head>
 
 <body>
-    <!-- ? Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src={{ asset('assetsFront/img/logo/loder.png') }} alt="">
-                </div>
+<!-- Preloader Start -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="{{ asset('assetsFront/img/logo/loder.png') }}" alt="">
             </div>
         </div>
     </div>
-    
-    <!-- Preloader Start -->
-    <header>
-<!-- Header Start -->
-<div class="header-area header-transparent">
-    <div class="main-header ">
-        <div class="header-bottom  header-sticky">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <!-- Logo -->
-                    <div class="col-xl-2 col-lg-2">
-                        <div class="logo">
-                            <a href="index.html"><img src={{ asset('assetsFront/img/logo/logo.png') }} alt=""></a>
-                        </div>
-                    </div>
-                    <div class="col-xl-10 col-lg-10">
-                        <div class="menu-wrapper d-flex align-items-center justify-content-end">
-                            <div class="main-menu d-none d-lg-block">
-                                <nav>
-                                    <ul id="navigation">                                                                                          
-                                        <li class="{{ app.request.attributes.get('_route') == 'app_home' ? 'active' }}">
-                                            <a href="{{ path('app_home') }}">Home</a>
-                                        </li>
-                                        <li><a href="courses.html">Courses</a></li>
-                                        
-                                        <li><a href="about.html">Blog</a></li>
-                                       
+</div>
+<!-- Preloader End -->
 
-                                        <li class="nav-item nav-profile dropdown">
+<!-- Header Start -->
+<header>
+    <div class="header-area header-transparent">
+        <div class="main-header ">
+            <div class="header-bottom  header-sticky">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <!-- Logo -->
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="logo">
+                                <a href="index.html"><img src="{{ asset('assetsFront/img/logo/logo.png') }}" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10">
+                            <div class="menu-wrapper d-flex align-items-center justify-content-end">
+                                <div class="main-menu d-none d-lg-block">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li class="{{ app.request.attributes.get('_route') == 'app_home' ? 'active' }}">
+                                                <a href="{{ path('app_home') }}">Home</a>
+                                            </li>
+                                            <li><a href={{ path('coursFront') }}>Courses</a></li>
+                                            <li><a href="about.html">Blog</a></li>
+                                            <li class="nav-item nav-profile dropdown">
                                                 <div class="nav-profile-img">
                                                     {% if app.session.get('user_id') %}
                                                         <img src="{{ asset('uploads/' ~ app.session.get('user_picture')) }}" alt="Profile Picture" width="50" height="50" >
@@ -78,145 +75,138 @@
                                                         <p class="mb-1 text-black">{{ app.session.get('user_name') }}</p>
                                                     {% endif %}
                                                 </div>
-                                            
-                                            
-                                        </li>
-                                        {% if app.session.get('user_id') %}
-                                            {% if app.session.get('user_role') == 'Enseignant' %}
-                                                <li><a href="">Teacher Dashboard</a></li>
+                                            </li>
+                                            {% if app.session.get('user_id') %}
+                                                {% if app.session.get('user_role') == 'Enseignant' %}
+                                                    <li><a href="">Teacher Dashboard</a></li>
+                                                {% endif %}
+                                                <li><a href="{{ path('app_user_edit', {'id': app.session.get('user_id')}) }}">Profile</a></li>
+                                                <li><a href="about.html">Reservation</a></li>
+                                                <li><a href="about.html">Blog</a></li>
+                                                <li><a href="about.html">Quiz</a></li>
+                                                <li><a href="{{ path('app_logout') }}" class="btn btn-outline-info btn-fw">Disconnect</a></li>
+                                            {% else %}
+                                                <li class="button-header margin-left"><a href="{{ path('app_login') }}" class="btn">LOGIN</a></li>
+                                                <li class="button-header margin-left"><a href="{{ path('app_user_new') }}" class="btn">Register</a></li>
                                             {% endif %}
-                                            <li><a href="{{ path('app_user_edit', {'id': app.session.get('user_id')}) }}">Profile</a></li>
-                                            <li><a href="about.html">Reservation</a></li>
-                                        <li><a href="about.html">Blog</a></li>
-                                       <li><a href="about.html">Quiz</a></li>
-                                            <li><a href="{{ path('app_logout') }}" class="btn btn-outline-info btn-fw">Disconnect</a></li>
-                                        {% else %}
-                                            <li class="button-header margin-left"><a href="{{ path('app_login') }}" class="btn">LOGIN</a></li>
-                                            <li class="button-header margin-left"><a href="{{ path('app_user_new') }}" class="btn">Register</a></li>
-                                        {% endif %}
-                                    </ul>
-                                </nav>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
-                    </div> 
-                    
-                    <!-- Mobile Menu -->
-                    <div class="col-12">
-                        <div class="mobile_menu d-block d-lg-none"></div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</header>
+<!-- Header End -->
 
-        <!-- Header End -->
-    </header>
-    <main>
-    
-        <!--? slider Area Start-->
-        <section class="slider-area ">
-            <div class="slider-active">
-                <!-- Single Slider -->
-                <div class="single-slider slider-height d-flex align-items-center">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-7 col-md-12">
-                                <div class="hero__caption">
-                                    <h1 data-animation="fadeInLeft" data-delay="0.2s">Online learning<br> platform</h1>
-                                    <p data-animation="fadeInLeft" data-delay="0.4s">Build skills with courses, certificates, and degrees online from world-class universities and companies</p>
-                                </div>
+<main>
+    <!-- Slider Area Start -->
+    <section class="slider-area ">
+        <div class="slider-active">
+            <!-- Single Slider -->
+            <div class="single-slider slider-height d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-7 col-md-12">
+                            <div class="hero__caption">
+                                <h1 data-animation="fadeInLeft" data-delay="0.2s">Online learning<br> platform</h1>
+                                <p data-animation="fadeInLeft" data-delay="0.4s">Build skills with courses, certificates, and degrees online from world-class universities and companies</p>
                             </div>
                         </div>
-                    </div>          
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+    <!-- Slider Area End -->
 
-                {# Display flash messages #}
-                {% for flash_message in app.flashes('success') %}
-                    <div class="alert alert-success" role="alert">
-                        {{ flash_message }}
-                    </div>
-                {% endfor %}
-        {% block body %}
-        {% endblock %}
+    <!-- Display flash messages -->
+    {% for flash_message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <!-- ? services-area -->
-       
-        <!-- Courses area start -->
-        
-        <!-- footer-bottom area -->
+    {% block body %}
+    {% endblock %}
+
+    <!-- Footer Bottom Start -->
+    <footer class="footer-bg">
         <div class="footer-bottom-area">
             <div class="container">
                 <div class="footer-border">
                     <div class="row d-flex align-items-center">
-                        <div class="col-xl-12 ">
+                        <div class="col-xl-12">
                             <div class="footer-copy-right text-center">
-                                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Footer End-->
-      </div>
-  </footer> 
-  <!-- Scroll Up -->
-  <div id="back-top" >
+                                <p>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                                    All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+</main>
+
+<!-- Scroll Up -->
+<div id="back-top">
     <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
 </div>
 
 <!-- JS here -->
-<script src={{ asset('./assetsFront/js/vendor/modernizr-3.5.0.min.js') }}></script>
+<script src="{{ asset('./assetsFront/js/vendor/modernizr-3.5.0.min.js') }}"></script>
 <!-- Jquery, Popper, Bootstrap -->
-<script src={{ asset('./assetsFront/js/vendor/jquery-1.12.4.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/popper.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/bootstrap.min.js') }}></script>
+<script src="{{ asset('./assetsFront/js/vendor/jquery-1.12.4.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/popper.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/bootstrap.min.js') }}"></script>
 <!-- Jquery Mobile Menu -->
-<script src={{ asset('./assetsFront/js/jquery.slicknav.min.js') }}></script>
+<script src="{{ asset('./assetsFront/js/jquery.slicknav.min.js') }}"></script>
 
 <!-- Jquery Slick , Owl-Carousel Plugins -->
-<script src={{ asset('./assetsFront/js/owl.carousel.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/slick.min.js') }}></script>
+<script src="{{ asset('./assetsFront/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/slick.min.js') }}"></script>
 <!-- One Page, Animated-HeadLin -->
-<script src={{ asset('./assetsFront/js/wow.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/animated.headline.js') }}></script>
-<script src={{ asset('./assetsFront/js/jquery.magnific-popup.js') }}></script>
+<script src="{{ asset('./assetsFront/js/wow.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/animated.headline.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/jquery.magnific-popup.js') }}"></script>
 
 <!-- Date Picker -->
-<script src={{ asset('./assetsFront/js/gijgo.min.js') }}></script>
+<script src="{{ asset('./assetsFront/js/gijgo.min.js') }}"></script>
 <!-- Nice-select, sticky -->
-<script src={{ asset('./assetsFront/js/jquery.nice-select.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/jquery.sticky.js') }}></script>
+<script src="{{ asset('./assetsFront/js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/jquery.sticky.js') }}"></script>
 <!-- Progress -->
-<script src={{ asset('./assetsFront/js/jquery.barfiller.js') }}></script>
+<script src="{{ asset('./assetsFront/js/jquery.barfiller.js') }}"></script>
 
-<!-- counter , waypoint,Hover Direction -->
-<script src={{ asset('./assetsFront/js/jquery.counterup.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/waypoints.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/jquery.countdown.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/hover-direction-snake.min.js') }}></script>
+<!-- Counter, Waypoints, Hover Direction -->
+<script src="{{ asset('./assetsFront/js/jquery.counterup.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/waypoints.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/jquery.countdown.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/hover-direction-snake.min.js') }}"></script>
 
-<!-- contact js -->
-<script src={{ asset('./assetsFront/js/contact.js') }}></script>
-<script src={{ asset('./assetsFront/js/jquery.form.js') }}></script>
-<script src={{ asset('./assetsFront/js/jquery.validate.min.js') }}></script>
-<script src={{ asset('./assetsFront/js/mail-script.js') }}></script>
-<script src={{ asset('./assetsFront/js/jquery.ajaxchimp.min.js') }}></script>
+<!-- Contact js -->
+<script src="{{ asset('./assetsFront/js/contact.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/jquery.form.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/mail-script.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/jquery.ajaxchimp.min.js') }}"></script>
 
-<!-- Jquery Plugins, main Jquery -->	
-<script src={{ asset('./assetsFront/js/plugins.js') }}></script>
-<script src={{ asset('./assetsFront/js/main.js') }}></script>
-
+<!-- Main JS -->
+<script src="{{ asset('./assetsFront/js/plugins.js') }}"></script>
+<script src="{{ asset('./assetsFront/js/main.js') }}"></script>
 </body>
 </html>
+

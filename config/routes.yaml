@@ -16,3 +16,8 @@ verification_forget:
   path: /verification_forget
   controller: App\Controller\UserController::verificationForget
   methods: [GET, POST]
+
+save_rating:
+  path: /save-rating
+  controller: App\Controller\CoursController::saveRating
+  methods: ['POST']
