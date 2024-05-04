@@ -1,0 +1,37 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+verification_sms:
+  path: /verification_sms
+  controller: App\Controller\UserController::verificationSms
+  methods: [GET]
+
+export_pdf:
+    path: /export-pdf
+    controller: App\Controller\PublicationBackController::exportPDF
+
+app_publication_search:
+    path: /search
+    controller: App\Controller\PublicationBackController::search
+    methods: ['GET']
+
+export_excel:
+    path: /export-excel
+    controller: App\Controller\PublicationBackController::export
+    methods: ['GET']
+
+verification_submit:
+  path: /verification_submit
+  controller: App\Controller\UserController::verificationSubmit
+  methods: [POST]
+
+verification_forget:
+  path: /verification_forget
+  controller: App\Controller\UserController::verificationForget
+  methods: [GET, POST]
+
+save_rating:
+  path: /save-rating
+  controller: App\Controller\CoursController::saveRating
+  methods: ['POST']

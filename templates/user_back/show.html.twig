@@ -1,0 +1,55 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>User</h1>
+
+   <div class="row">
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">User Informations</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                         <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Age</th>
+                    <th>Numéro de téléphone</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+                        </thead>
+
+            <tbody>
+                
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.nom }}</td>
+                        <td>{{ user.prenom }}</td>
+                        <td>{{ user.age }}</td>
+                        <td>{{ user.numTel }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ user.status }}</td>
+                        
+                        
+                        <td>
+                           
+                            <a href="{{ path('app_user_back_edit', {'id': user.id}) }}">{{ include('user_back/_delete_form.html.twig') }}</a>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ path('app_user_back_index') }}">Back to list</a>
+
+
+{% endblock %}

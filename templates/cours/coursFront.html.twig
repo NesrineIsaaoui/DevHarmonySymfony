@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <style>
+        /* CSS personnalisé pour agrandir la case de recherche et mettre en gras la phrase */
+        .custom-search-input {
+            width: 100%; /* Définir une largeur personnalisée */
+            max-width: 600px; /* Définir une largeur maximale si nécessaire */
+            margin: 0 auto; /* Centrer horizontalement */
+        }
+
+        .custom-search-input input[type="text"] {
+            height: 50px; /* Définir une hauteur personnalisée */
+            font-weight: bold; /* Mettre en gras le texte */
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="album py-5 bg-light">
+                    <div class="sidebar-search">
+                        <div class="input-group input-group-lg custom-search-input"> <!-- Ajouter la classe custom-search-input pour appliquer les styles CSS personnalisés -->
+                            <input type="text" id="search" class="form-control widget_input" placeholder="Chercher un cours">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="properties__card">
+        <div class="row" id="searchResults">
+            {% for p in listS %}
+                <div class="col-md-4">
+                    <div class="properties__caption text-center">
+                        <img src="{{ p.coursimage }}" class="img-fluid mx-auto d-block" alt="" style="max-width: 100px; max-height: 100px;">
+                        <h3><a href="{{ path('detailCoursFront',{id:p.id}) }}">Cours Name: {{ p.coursname }}</a></h3>
+                        <p>Description: {{ p.coursdescription }}</p>
+                        <div class="rating" data-course="{{ p.id }}" data-course-name="{{ p.coursname }}">
+                            <div class="stars">
+                                <i class="far fa-star star" data-value="1"></i>
+                                <i class="far fa-star star" data-value="2"></i>
+                                <i class="far fa-star star" data-value="3"></i>
+                                <i class="far fa-star star" data-value="4"></i>
+                                <i class="far fa-star star" data-value="5"></i>
+                            </div>
+                            <span class="average-rating" data-course="{{ p.id }}">{{ averageRatings[p.id] }}</span> based on <span class="review-count">{{ p.avis|length }}</span> reviews
+                        </div>
+
+                        <div class="price">
+                            <span>Prix: {{ p.coursprix }}TND</span>
+                        </div>
+                        <a href="#" class="border-btn border-btn2">Reserver</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 d-flex justify-content-center">
+                {{ knp_pagination_render(listS, 'bootstrap_4_pagination.html.twig') }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages flash -->
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <!-- Scripts JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#search").keyup(function() {
+                var value = $(this).val().toLowerCase();
+                $("#searchResults .col-md-4").each(function() {
+                    var coursname = $(this).find("h3 a").text().toLowerCase();
+                    if (coursname.includes(value)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+            $('.stars .star').on('click', function() {
+                var value = $(this).data('value');
+                var courseName = $(this).closest('.rating').data('course-name');
+
+                // Afficher la boîte de dialogue de confirmation
+                var confirmMessage = "Tu sélectionnes " + value + " étoiles pour le cours '" + courseName + "'. Confirmez-vous ?";
+                if (confirm(confirmMessage)) {
+                    // Si l'utilisateur clique sur Oui, effectuez l'action
+                    var courseId = $(this).closest('.rating').data('course');
+                    saveRating(value, courseId);
+                }
+            });
+
+            $('.stars .star').hover(function() {
+                var value = $(this).data('value');
+                $(this).prevAll().addBack().addClass('fas').removeClass('far');
+                $(this).nextAll().removeClass('fas').addClass('far');
+            }, function() {
+                var courseId = $(this).closest('.rating').data('course');
+                var rating = $(this).closest('.stars').find('.fas').length;
+                if (rating === 0) {
+                    $(this).siblings().removeClass('fas').addClass('far');
+                }
+            });
+        });
+
+        function saveRating(value, courseId) {
+            $.ajax({
+                url: '/save-rating',
+                method: 'POST',
+                data: {
+                    value: value,
+                    courseId: courseId
+                },
+                success: function(response) {
+                    console.log('Rating saved successfully');
+                    // Mettre à jour le nombre d'avis affiché
+                    var newRating = parseInt($('.rating[data-course="' + courseId + '"] .review-count').text()) + 1;
+                    $('.rating[data-course="' + courseId + '"] .review-count').text(newRating);
+
+                    // Mettre à jour la moyenne des évaluations affichée
+                    var currentAverageRating = parseFloat($('.rating[data-course="' + courseId + '"] .average-rating').text());
+                    var totalRatings = parseInt($('.rating[data-course="' + courseId + '"] .review-count').text());
+                    var newAverageRating = ((currentAverageRating * (totalRatings - 1)) + value) / totalRatings;
+                    $('.rating[data-course="' + courseId + '"] .average-rating').text(newAverageRating.toFixed(1));
+                },
+
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+
+    </script>
+{% endblock %}

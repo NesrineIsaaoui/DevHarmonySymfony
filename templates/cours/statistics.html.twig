@@ -1,0 +1,74 @@
+{% extends 'baseBack.html.twig' %}
+{% block body %}
+    <main id="main" class="main">
+        <div class="content-page">
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <a href="{{ path('app_cours') }}">
+                            <i class="fa fa-arrow-circle-left" style="font-size: 30px; color: black;"></i>
+                        </a>
+                    </div>
+                    <div class="pagetitle">
+                        <h1>Statistiques du Cours selon les avis : "{{ cours.coursname }}"</h1>
+                    </div>
+
+                    <section class="section">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Statistiques des Avis</h5>
+                                        <div class="rating-circles">
+                                            {% for rating, percentage in ratingPercentages %}
+                                                <div class="star-rating" data-rating="{{ rating }}"></div>
+                                                <div class="percentage">{{ percentage }}%</div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <style>
+        .rating-circles {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .star-rating {
+            font-size: 24px;
+            color: gold;
+            margin-right: 5px; /* Ajout de marge entre les étoiles et les pourcentages */
+        }
+
+        .percentage {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const starDivs = document.querySelectorAll('.star-rating');
+            starDivs.forEach((starDiv, index) => {
+                const rating = starDiv.dataset.rating;
+                const percentage = starDiv.nextElementSibling.textContent;
+                let starsHtml = '';
+                for (let i = 0; i < rating; i++) {
+                    starsHtml += '<i class="fas fa-star"></i>';
+                }
+                starDiv.innerHTML = starsHtml;
+                starDiv.nextElementSibling.textContent = percentage;
+            });
+        });
+    </script>
+{% endblock %}
