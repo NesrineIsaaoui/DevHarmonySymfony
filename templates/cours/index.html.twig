@@ -62,7 +62,8 @@
                                                  src="{{ asset(relativeImagePath) }}" />
                                         </td>
                                         <td>{{ p.coursprix }} TND</td>
-                                        <td>{{ p.idcategory.getCategoryname() }}</td>
+                                        <td>{{ p.idcategory is null ? 'null' : p.idcategory.getCategoryname() }}</td>
+
                                         <td>
                                             <a href="{{ path('modifierCours',{id:p.id}) }}">
                                                 <button type="button" class="btn btn-outline-success btn-icon">
@@ -98,9 +99,7 @@
                                 {% endfor %}
                                 </tbody>
                             </table>
-                            <a href="{{ path('exportExcel') }}">
-                                <button type="button" style="float: right;padding: 10px;margin-left: 10px;" class="btn btn-outline-secondary">Exporter Excel</button>
-                            </a>
+                         
                             <a href="{{ path('tri') }}">
                                 <button type="button" style="float: left;padding: 10px;margin-right: 10px;" class="btn btn-outline-info">tri croissant</button>
                             </a>

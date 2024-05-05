@@ -87,6 +87,11 @@ class User
         return $this->id;
     }
 
+    public function setId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;

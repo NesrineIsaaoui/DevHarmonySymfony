@@ -248,7 +248,7 @@ class CoursController extends AbstractController
             'listS' => $cours,
         ]);
     }
-
+/*
     #[Route('/exportExcel', name: 'exportExcel')]
     public function exportExcel()
     {
@@ -288,6 +288,6 @@ class CoursController extends AbstractController
         // Return the Excel file as a response
         return $this->file($filename);
     }
-
+*/
 
 }

@@ -58,7 +58,7 @@
                         <div class="price">
                             <span>Prix: {{ p.coursprix }}TND</span>
                         </div>
-                        <a href="#" class="border-btn border-btn2">Reserver</a>
+                                        <a class="btn cur-p btn-primary" href="{{ path('add_reservation', {'id': p.id}) }}">Reserver</a>
                     </div>
                 </div>
             {% endfor %}
