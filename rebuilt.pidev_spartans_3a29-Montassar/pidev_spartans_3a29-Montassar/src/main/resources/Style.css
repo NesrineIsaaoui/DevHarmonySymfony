@@ -1,0 +1,13 @@
+/* Remove hover effect */
+.button:hover {
+    -fx-background-color: transparent;
+
+}
+
+/* Remove focus style */
+.button:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+
+}

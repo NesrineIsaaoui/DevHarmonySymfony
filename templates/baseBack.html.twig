@@ -58,11 +58,18 @@
           <ul class="navbar-nav navbar-nav-right">
     <div class="nav-profile-img">
         {% if app.session.get('user_id') %}
+<<<<<<< HEAD
             <img src="{{ asset('uploads/' ~ app.session.get('user_picture')) }}" alt="Profile Picture" width="50" height="50">
         {% endif %}
         <span class="availability-status online"></span>
     </div>
     
+=======
+            <img src="{{ asset('uploads/' ~ app.session.get('user_picture')) }}" alt="Profile Picture" width="100" height="100">
+        {% endif %}
+        <span class="availability-status online"></span>
+    </div>
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
     <div class="nav-profile-text">
         {% if app.session.get('user_id') %}
             <p class="mb-1 text-black">{{ app.session.get('user_name') }}</p>
@@ -186,7 +193,10 @@
         </div>
       </nav>
       <!-- partial -->
+<<<<<<< HEAD
       
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
       <div class="container-fluid page-body-wrapper">
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
@@ -208,9 +218,13 @@
         </ul>
           </ul>
         </nav>
+<<<<<<< HEAD
         
         <!-- partial -->
         
+=======
+        <!-- partial -->
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
@@ -228,11 +242,22 @@
               </nav>
             </div>
 
+<<<<<<< HEAD
               
 
             {% block body %}
             {% endblock %}
          
+=======
+            {% block body %}
+            {% endblock %}
+          <footer class="footer">
+            <div class="container-fluid d-flex justify-content-between">
+              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © bootstrapdash.com 2021</span>
+              <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template</a> from Bootstrapdash.com</span>
+            </div>
+          </footer>
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
           <!-- partial -->
         </div>
         <!-- main-panel ends -->

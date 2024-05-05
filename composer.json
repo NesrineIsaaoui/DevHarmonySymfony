@@ -41,8 +41,12 @@
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
+<<<<<<< HEAD
         "twig/twig": "^2.12|^3.0",
         "twilio/sdk": "^8.0"
+=======
+        "twig/twig": "^2.12|^3.0"
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
     },
     "config": {
         "allow-plugins": {

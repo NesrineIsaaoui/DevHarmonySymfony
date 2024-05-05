@@ -1,6 +1,7 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+<<<<<<< HEAD
 
 verification_sms:
   path: /verification_sms
@@ -16,3 +17,5 @@ verification_forget:
   path: /verification_forget
   controller: App\Controller\UserController::verificationForget
   methods: [GET, POST]
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a

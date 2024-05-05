@@ -10,7 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+<<<<<<< HEAD
 use App\Form\User2Type;
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
 
 #[Route('/user/back')]
 class UserBackController extends AbstractController
@@ -86,7 +89,11 @@ class UserBackController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_back_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+<<<<<<< HEAD
         $form = $this->createForm(User2Type::class, $user);
+=======
+        $form = $this->createForm(User1Type::class, $user);
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

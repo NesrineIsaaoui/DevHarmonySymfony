@@ -5,6 +5,7 @@
 {% block body %}
     <h1>Edit User</h1>
 
+<<<<<<< HEAD
     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
 <div class="form-group">
@@ -62,6 +63,9 @@
 
 {{ form_end(form) }}
 
+=======
+    {{ include('user_back/_form.html.twig', {'button_label': 'Update'}) }}
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
 
     <a href="{{ path('app_user_back_index') }}">back to list</a>
 

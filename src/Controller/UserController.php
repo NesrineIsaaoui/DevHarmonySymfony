@@ -11,11 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+<<<<<<< HEAD
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -41,13 +44,18 @@ class UserController extends AbstractController
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => $email]);
     
+<<<<<<< HEAD
         if (!$user || !$this->isPasswordValid($user, $password) || $user->getRole() == "Enseignant") {
+=======
+        if (!$user || !$this->isPasswordValid($user, $password)) {
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
             return $this->render('user/login.html.twig', ['error' => 'Invalid email or password']);
         }
     
         $session->set('user_id', $user->getId());
         $session->set('user_name', $user->getNom() . ' ' . $user->getPrenom());
         $session->set('user_picture', $user->getImage());
+<<<<<<< HEAD
         $session->set('user_role', $user->getRole());
 
         if ($user->getConfirmcode() != "verified") {
@@ -137,6 +145,13 @@ class UserController extends AbstractController
                 );
 
             return $this->redirectToRoute('verification_sms');
+=======
+
+        if ($user->getConfirmcode() != "verified") {
+            return $this->render('user/verify.html.twig');
+        }else if($user->getRole() === 'ADMIN') {
+            return $this->redirectToRoute('app_user_back_index');
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
         } else {
             return $this->redirectToRoute('app_home');
         }
@@ -149,7 +164,10 @@ class UserController extends AbstractController
     
         return $this->redirectToRoute('app_login');
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
     private function isPasswordValid(User $user, string $password): bool
     {
         return $password == $user->getMdp();
@@ -170,7 +188,10 @@ public function verificationSubmit(Request $request, SessionInterface $session):
     $verificationCode = $user->getConfirmcode();
     $submittedCode = $request->request->get('verification_code');
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
     if ($verificationCode == $submittedCode) {
         $user->setConfirmcode('verified');
         $entityManager = $this->getDoctrine()->getManager();
@@ -182,6 +203,7 @@ public function verificationSubmit(Request $request, SessionInterface $session):
     return $this->render('user/verify.html.twig');
 }
 
+<<<<<<< HEAD
 #[Route('/verification_submit_Sms', name: 'verification_submit_sms', methods: ['POST'])]
 public function verificationSubmitSMS(Request $request, SessionInterface $session): Response
 {
@@ -214,6 +236,8 @@ public function verificationSms(Request $request, SessionInterface $session): Re
     return $this->render('user/verifySMS.html.twig');
 }
 
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
 #[Route('/verification_forget', name: 'verification_forget')]
 public function verificationForget(Request $request, SessionInterface $session): Response
 {
@@ -229,7 +253,10 @@ public function verificationForget(Request $request, SessionInterface $session):
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             $session->set('verification_code', $randomCode);
+<<<<<<< HEAD
             $this->sendEmail($email, "Verification Code", "Your Code is ".$randomCode);
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
             return $this->render('user/forget.html.twig');
         }else {
             return $this->render('user/email.html.twig');
@@ -239,6 +266,7 @@ public function verificationForget(Request $request, SessionInterface $session):
     return $this->render('user/email.html.twig');
 }
 
+<<<<<<< HEAD
 function sendEmail($recipientEmail, $subject, $message)
 {
     $transport = Transport::fromDsn('smtp://liliajemai00@gmail.com:ndgmocmircxvrxvg@smtp.gmail.com:587?encryption=tls');
@@ -262,6 +290,8 @@ function sendEmail($recipientEmail, $subject, $message)
     $mailer->send($email);
 }
 
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
 #[Route('/forget', name: 'forget')]
 public function forgetPassword(Request $request, SessionInterface $session): Response
 {
@@ -276,7 +306,10 @@ public function forgetPassword(Request $request, SessionInterface $session): Res
         $user->setMdp($randomPassword);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
+<<<<<<< HEAD
         $this->sendEmail($email, "Password Reset", "Your new Password is ".$randomPassword);
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
         return $this->redirectToRoute('app_login');
     } else {
         // If the verification code does not match, render the same page with an error message
@@ -310,9 +343,12 @@ public function forgetPassword(Request $request, SessionInterface $session): Res
 
                 $user->setImage($newFilename);
             }
+<<<<<<< HEAD
             $password = $user->getMdp();
             $hashedPassword = md5($password);
             $user->setMdp($hashedPassword);
+=======
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
             $verificationCode = rand(100000, 999999);
             $user->setConfirmcode((string)$verificationCode);
 
@@ -359,8 +395,17 @@ public function forgetPassword(Request $request, SessionInterface $session): Res
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+<<<<<<< HEAD
         $user->setStatus("Desactive");
         $entityManager->flush();
         return $this->redirectToRoute('app_logout');
+=======
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+>>>>>>> 877c365e6de165875e91361e27f8d158d37b1f4a
     }
 }
