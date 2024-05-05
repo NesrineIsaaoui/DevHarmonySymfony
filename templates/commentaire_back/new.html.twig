@@ -1,0 +1,19 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Create a New Commentaire{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <h1 class="display-4 mb-4">Create a New Commentaire</h1>
+
+    <div class="mt-4">
+        <a href="{{ path('app_commentaire_back_index') }}" class="btn btn-outline-secondary">Back to List</a>
+    </div>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            {{ include('commentaire_back/_form.html.twig', {'button_label': 'Create'}) }}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

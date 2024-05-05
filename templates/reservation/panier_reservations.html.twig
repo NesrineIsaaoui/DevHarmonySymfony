@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier des Réservations{% endblock %}
+
+{% block body %}
+    <section class="parallax-window" data-parallax="scroll" style="" data-natural-width="1400" data-natural-height="470">
+        <div class="parallax-content-1 opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.4)">
+            <div class="animated fadeInDown">
+                <h1>Panier des Réservations</h1>
+                <p>Les Reservations confirmées</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                {% if reservations|length > 0 %}
+                    <ul class="list-group">
+                        {% for reservation in reservations %}
+                            <li class="list-group-item mb-3">
+                                <p>Code Promo: {{ reservation.categoriecodepromos.code }}</p>
+                                <p>Cours: {{ reservation.courss.coursname }}</p>
+                                <p>Prix : {{ reservation.courss.coursprix }}</p>
+                                <p>Prix après promotion : {{ reservation.prixd }}</p>
+                                <img src="{{ asset('uploads/images/' ~ reservation.courss.coursimage) }}" style="width:80px; height:80px;" />
+                                <p>Date de réservation: {{ reservation.dateReservation|date('d-m-Y') }}</p>
+                                <div class="btn-group" role="group" aria-label="Actions">
+                                    <a class="btn cur-p btn-danger" href="{{ path('delete_adh', {'id': reservation.id}) }}">Supprimer</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        {% set currentPage = reservations.currentPageNumber %}
+                        {% set previous = currentPage > 1 ? currentPage - 1 : false %}
+                        {% set next = currentPage < reservations.pageCount ? currentPage + 1 : false %}
+                        <ul class="pagination">
+                            {% if previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('panier_reservations') }}?page={{ previous }}">Précédent</a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ currentPage }}</span>
+                            </li>
+                            {% if next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('panier_reservations') }}?page={{ next }}">Suivant</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- Fin de la pagination -->
+                {% else %}
+                    <p>Votre panier est vide.</p>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                {% if reservations|length > 0 %}
+                    <div class="card card-total">
+                        <div class="card-body">
+                            <h5 class="card-title">Total des prix</h5>
+                            <hr>
+                            <p class="card-text">Total: {{ totalAmount }}</p>
+                            <a href="{{ path('process_payment') }}" class="btn btn-primary btn-lg btn-block">Pay</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

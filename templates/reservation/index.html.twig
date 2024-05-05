@@ -1,0 +1,52 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Reservation {% endblock %}
+
+{% block body %}
+
+<section class="parallax-window" data-parallax="scroll" style="" data-natural-width="1400" data-natural-height="470">
+    <div class="parallax-content-1 opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.4)">
+        <div class="animated fadeInDown">
+            <h1>Voici les Reservations</h1>
+            <p>chaque fausse Reservation ne peux pas etre disponnibles bientot</p>
+        </div>
+    </div>
+</section>
+
+<!-- Fin de la section -->
+<div class="card-body">
+    <h5 class="card-title">Reservations</h5>
+
+  <!-- Tableau des resrvations -->
+{% for response in Reservation %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Id complet: {{ response.id }}</h5>
+        <h5 class="card-title">User: {{ response.idUser }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">code_promos: {{ response.categoriecodepromos.code }}</h6>
+        <h7 class="card-subtitle mb-2 text-muted">cours: {{ response.courss.coursname }}</h7>
+        <p class="card-subtitle mb-2 text-muted">paid status: {{ response.paidStatus }}</p>
+        <p class="card-subtitle mb-2 text-muted">resstatus: {{ response.resStatus }}</p>
+        
+        
+        <p class="card-text">Date_reservation: {{ response.dateReservation|date('d-m-Y') }}</p>
+        
+        
+        
+        
+        
+        
+        <div class="btn-group" role="group" aria-label="Actions">
+            <a class="btn cur-p btn-danger" href="{{ path('delete_adh', {'id': response.id}) }}">Supprimer</a>
+            <a class="btn cur-p btn-success" href="{{ path('update_adh', {'id': response.id}) }}">Mettre à jour</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+    <div class="pagination">
+        {{ knp_pagination_render(Reservation) }}
+    </div>
+</div>
+{% endblock %}

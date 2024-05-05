@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your Publications{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-4">Your Publications</h1>
+        <a href="{{ path('app_publication_new') }}" class="btn btn-primary">Create New Blog</a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% if publications is not empty %}
+        
+            {% set session_user_id = app.session.get('user_id') %}
+            {% for publication in publications %}
+                {% set publication_user_id = publication.utilisateur.id %}
+               {% if session_user_id is defined and session_user_id is not null and session_user_id|number_format(0,0) == publication_user_id %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-transparent">
+                            <h5 class="card-title">{{ publication.titre }}</h5>
+                            <small class="text-muted">{{ publication.datePublication ? publication.datePublication|date('Y-m-d') : '' }}</small>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text text-muted">{{ publication.contenu | slice(0, 100) }}{% if publication.contenu | length > 100 %}...{% endif %}</p>
+                        </div>
+                        <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                            <a href="{{ path('app_publication_show', {'id': publication.id}) }}" class="btn btn-sm btn-primary">View</a>
+
+                                <a href="{{ path('app_publication_edit', {'id': publication.id}) }}" class="btn btn-sm btn-secondary">Edit</a>
+                        </div>
+                    </div>
+                </div>
+                    {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <p class="text-muted">No publications found.</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

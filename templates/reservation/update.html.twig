@@ -1,0 +1,30 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Modifier une reservation</h5>
+
+                                <!-- Formulaire de mise à jour de la reservation -->
+                                {% form_theme form 'bootstrap_4_layout.html.twig' %}
+                                <div class="card-body">
+                                    <h5 class="card-title">Modifier une reservation</h5>
+                                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                                        <!-- Contenu de votre formulaire ici -->
+                                    {{ form_end(form) }}
+                                </div>
+                                <!-- Fin du formulaire de mise à jour de la reservation -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
