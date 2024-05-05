@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div class="certificate" style="background-image: url('{{ app.request.schemeAndHttpHost ~ '/img/certificat.jpg' }}'); background-size: cover; background-position: center; position: relative; height: 800px;">
+    <h1 class="card-title text-center" style="position: absolute; top: 35%;right: 40%; ">{{ app.session.get('user_prenom')|upper }} {{ app.session.get('user_nom')|upper }}</h1>
+    <h2 class="card-text text-center" style="position: absolute; top: 50%; right: 57%;color: #D75404;">{{ test.sujet }}</h4>
+    <h4 class="card-text text-right" style="position: absolute; top: 67%; right: 15%;">{{ test.idFormateur.nom|upper}} {{ test.idFormateur.prenom|upper}}</h4>
+  </div>
+</body>
+</html>

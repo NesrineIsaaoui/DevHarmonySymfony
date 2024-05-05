@@ -1,0 +1,19 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Create New Publication{% endblock %}
+
+{% block body %}
+    <div class="container my-4">
+        <h1 class="display-5 mb-4">Create New Publication</h1>
+
+        <div class="mt-3">
+            <a href="{{ path('app_publication_back_index') }}" class="btn btn-secondary">Back to List</a>
+        </div>
+        <div class="card border-0 shadow mb-4">
+            <div class="card-body">
+                {{ include('publication_back/_form.html.twig') }}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

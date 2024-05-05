@@ -1,0 +1,9 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}New Categoriecodepromo{% endblock %}
+
+{% block body %}
+    {{ include('categoriecodepromo/_form.html.twig') }}
+
+ <a href="{{ path('app_categoriecodepromo_index') }}"><button type="button" class="btn btn-outline-info">back to list</button></a>
+{% endblock %}

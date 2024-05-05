@@ -59,12 +59,44 @@
                                 <div class="main-menu d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
+                                        {% if app.session.get('user_id') %}
                                             <li class="{{ app.request.attributes.get('_route') == 'app_home' ? 'active' }}">
                                                 <a href="{{ path('app_home') }}">Home</a>
                                             </li>
                                             <li><a href={{ path('coursFront') }}>Courses</a></li>
-                                            <li><a href="about.html">Blog</a></li>
-                                            <li class="nav-item nav-profile dropdown">
+                                            <li><a href={{ path('afficher_cours') }}>formations</a></li>
+                                            <li><a href={{ path('add_reservation') }}>reservation</a></li>
+                                            {% if app.session.get('user_role') == "Etudiant" %}
+													
+													<li>
+														<a href="{{ path('quiz_and_test_front')}}">Tests et Quizes</a>
+													</li>
+												{% endif %}
+													{% if app.session.get('user_role') == "Enseignant" %}
+													
+													<li>
+														<a href="{{ path('test_index', {'id': app.session.get('user_id')} )}}">Tests</a>
+														
+													</li>
+													
+													<li>
+														<a href="{{ path('quiz_index', {'id': app.session.get('user_id')} )}}">Quizes</a>
+													</li>
+												{% endif %}
+                                             <li class="button-header margin-left">
+                                                    <a href="{{ path('panier_reservations') }}">
+                                                        <img src="{{ asset('assets/images/panier.png') }}" alt="Panier" style="width: 30px; height: auto;">
+                                                    </a>
+                                                </li>
+                                                <li><a href="/plan">Planner</a>
+                                            <ul class="submenu">
+                                                    <li><a href="/addPlan">Add Plans</a></li>
+                                                    <li><a href="/addTask">Add Tasks</a></li>
+                                                    <li><a href="/plan">View Plans</a></li>
+                                                    <li><a href="/task">View Tasks</a></li>
+                                                </ul></li>
+                                                <li><a href="{{ path('app_publication_index') }}">Blog</a>
+                                                <li class="nav-item nav-profile dropdown">
                                                 <div class="nav-profile-img">
                                                     {% if app.session.get('user_id') %}
                                                         <img src="{{ asset('uploads/' ~ app.session.get('user_picture')) }}" alt="Profile Picture" width="50" height="50" >
@@ -76,19 +108,19 @@
                                                     {% endif %}
                                                 </div>
                                             </li>
+                                            {% endif %}
                                             {% if app.session.get('user_id') %}
                                                 {% if app.session.get('user_role') == 'Enseignant' %}
                                                     <li><a href="">Teacher Dashboard</a></li>
                                                 {% endif %}
+                                                <li><a href="{{ path('app_mypubs') }}">My Blogs</a>
                                                 <li><a href="{{ path('app_user_edit', {'id': app.session.get('user_id')}) }}">Profile</a></li>
-                                                <li><a href="about.html">Reservation</a></li>
-                                                <li><a href="about.html">Blog</a></li>
-                                                <li><a href="about.html">Quiz</a></li>
                                                 <li><a href="{{ path('app_logout') }}" class="btn btn-outline-info btn-fw">Disconnect</a></li>
                                             {% else %}
                                                 <li class="button-header margin-left"><a href="{{ path('app_login') }}" class="btn">LOGIN</a></li>
                                                 <li class="button-header margin-left"><a href="{{ path('app_user_new') }}" class="btn">Register</a></li>
                                             {% endif %}
+                                            
                                         </ul>
                                     </nav>
                                 </div>
@@ -198,7 +230,6 @@
 <script src="{{ asset('./assetsFront/js/hover-direction-snake.min.js') }}"></script>
 
 <!-- Contact js -->
-<script src="{{ asset('./assetsFront/js/contact.js') }}"></script>
 <script src="{{ asset('./assetsFront/js/jquery.form.js') }}"></script>
 <script src="{{ asset('./assetsFront/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('./assetsFront/js/mail-script.js') }}"></script>

@@ -42,6 +42,41 @@ class CoursRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+    
+    public function save(Cours $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Cours $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+ 
+    public function searchByName($searchQuery)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+
+        if ($searchQuery) {
+            $queryBuilder->andWhere($queryBuilder->expr()->orX(
+                $queryBuilder->expr()->like('c.coursname', ':searchQuery'),
+                $queryBuilder->expr()->like('c.coursprix', ':searchQuery'),
+                $queryBuilder->expr()->like('c.coursdescription', ':searchQuery')
+            ))
+
+                ->setParameter('searchQuery', '%' . $searchQuery . '%');
+        }
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Cours[] Returns an array of Cours objects
 //     */

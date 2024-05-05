@@ -1,0 +1,38 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Commentaire Details{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <h1 class="mb-4">Commentaire Details</h1>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <th scope="row">ID</th>
+                        <td>{{ commentaire.id }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Content</th>
+                        <td>{{ commentaire.contenu }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Date</th>
+                        <td>{{ commentaire.dateCommentaire ? commentaire.dateCommentaire|date('Y-m-d H:i:s') : 'Not Set' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between">
+        <a href="{{ path('app_commentaire_back_index') }}" class="btn btn-secondary">Back to List</a>
+        <div>
+            <a href="{{ path('app_commentaire_back_edit', {'id': commentaire.id}) }}" class="btn btn-primary">Edit</a>
+            {{ include('commentaire_back/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

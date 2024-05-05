@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<br><br>
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+    <h2 class="contact-title">Add a new Task</h2>
+        {{ form_start(f1, {'attr': {'class': 'form-contact contact_form', 'id': 'contactForm', 'novalidate': 'novalidate'}}) }}
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        {{ form_widget(f1.nomcour, {'attr': {'class': 'form-control', 'placeholder': 'Enter Task Name'}}) }}
+                        {{ form_errors(f1.nomcour, {'attr': {'class': 'form-control', 'placeholder': 'Enter Task Name'}}) }}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        {{ form_widget(f1.date, {'attr': {'class': 'form-control', 'placeholder': 'Enter Date and Time'}}) }}
+                        {{ form_errors(f1.date, {'attr': {'class': 'form-control', 'placeholder': 'Enter Date and Time'}}) }}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        {{ form_widget(f1.etat, {'attr': {'class': 'form-control', 'placeholder': 'Enter Status'}}) }}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        {{ form_widget(f1.idplan, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                {{ form_widget(f1.Submit, {'attr': {'class': 'button button-contactForm boxed-btn'}}) }}
+            </div>
+        {{ form_end(f1) }}
+    </div>
+</div>
+{% endblock %}

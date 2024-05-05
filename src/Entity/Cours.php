@@ -74,6 +74,8 @@ class Cours
     public function __construct()
     {
         $this->avis = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
+
     }
 
     /**
@@ -83,6 +85,40 @@ class Cours
     {
         return $this->avis;
     }
+
+    
+     /**
+     * @var Collection|Reservation[]
+     *
+     * @ORM\OneToMany(targetEntity="Reservation", mappedBy="courss")
+     */
+    private $reservations;
+
+    
+
+ // Add reservation
+ public function addReservation(Reservation $reservation): self
+ {
+     if (!$this->reservations->contains($reservation)) {
+         $this->reservations[] = $reservation;
+         $reservation->setCourss($this);
+     }
+
+     return $this;
+ }
+
+ // Remove reservation
+ public function removeReservation(Reservation $reservation): self
+ {
+     if ($this->reservations->removeElement($reservation)) {
+         // set the owning side to null (unless already changed)
+         if ($reservation->getCourss() === $this) {
+             $reservation->setCourss(null);
+         }
+     }
+
+     return $this;
+ }
     public function getId(): ?int
     {
         return $this->id;
@@ -148,5 +184,12 @@ class Cours
         return $this;
     }
 
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
 
 }

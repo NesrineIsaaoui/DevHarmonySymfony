@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TaskController!{% endblock %}
+{% block javascripts%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+     <table class="table table-striped">
+                    <thead>
+                    <tr>     <th>Nom cour</th>
+                             <th>Date</th>
+                             <th>Etat</th>
+                             <th>Plan</th>
+                        <th>Modification</th>
+                        <th>Suppression</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task in t %}
+                        <tr>
+                            <td>{{ task.nomcour }}</td>
+                            <td>{{ task.date|date('Y-m-d H:i:s') }}</td>
+                            <td>{{ task.etat }}</td>
+                            <td>{{ task.idPlan.nom }}</td>
+                             <td>
+                                <a class="btn btn-success" href="{{ path('modifTask',{'id':task.id}) }}">Modifier</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" href="{{ path('supp_task',{'id':task.id}) }}">Supprimer</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+</div>
+
+<script>
+window.embeddedChatbotConfig = {
+chatbotId: "xzG3MFylwF5GgEadtz3pv",
+domain: "www.chatbase.co"
+}
+</script>
+<script
+src="https://www.chatbase.co/embed.min.js"
+chatbotId="xzG3MFylwF5GgEadtz3pv"
+domain="www.chatbase.co"
+defer>
+</script>
+{% endblock %}

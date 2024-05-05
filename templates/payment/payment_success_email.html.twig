@@ -1,0 +1,7 @@
+<h1>Payment Successful</h1>
+<p>Thank you for your payment. Below are your reservation details:</p>
+<ul>
+    {% for reservation in reservations %}
+        <li>{{ reservation.id }}</li>
+    {% endfor %}
+</ul>
